@@ -3,8 +3,12 @@ using RecipeApp.Repositories;
 
 namespace RecipeApp
 {
-    internal class Program
+    public class Program
     {
+
+        private static StorageManager storageManager;
+        private static ConsoleView view;
+
         static void Main(string[] args)
         {
             string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RecipeDatabase;Integrated Security=True;Connect " +
@@ -17,8 +21,9 @@ namespace RecipeApp
             {
                 case "1":
                     {
-                        List<Country> countries = StorageManager.GetAllCountries();
+                        List<Country> countries = storageManager.GetAllCountries();
                         view.DisplayCountries(countries);
+                        break;
                     }
                 case "2":
                     {
@@ -27,17 +32,17 @@ namespace RecipeApp
                     }
                 case "3":
                     {
-                        DeleteCountryName();
+                        //DeleteCountryName();
                         break;
                     }
                 case "4":
                     {
-                        InsertCountryName();
+                        //InsertCountryName();
                         break;
                     }
                 case "5":
                     {
-                        exit = true;
+                        //exit = true;
                         break;
                     }
                 default:
@@ -45,8 +50,18 @@ namespace RecipeApp
                         Console.WriteLine("Invalid option. Please try again.");
                         break;
                     }
-                default:
             }
+        }
+
+        private static void UpdateCountryName()
+        {
+            view.DisplayMessage("Ener the CountryID to update: ");
+            int countryID = ConsoleView.GetIntInput();
+            view.DisplayMessage("Enter the new brand name: ");
+            string countryName = ConsoleView.GetInput();
+            int rowsAffected = StorageManager.UpdateCountryName(countryID, countryName);
+            view.DisplayMessage($"rows Affected: {rowsAffected}");
+
         }
     }
 }

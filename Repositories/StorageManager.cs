@@ -32,7 +32,7 @@ namespace RecipeApp.Repositories
             }
         }
 
-    public List<Country> GetAllCountries()
+        public List<Country> GetAllCountries()
         {
             List<Country> Countries = new List<Country>();
             string sqlString = "Select * FROM tblCountry";
@@ -50,5 +50,15 @@ namespace RecipeApp.Repositories
             }
             return Countries;
         }
+
+        public int UpdateCountryName(int countryID, string countryName)
+        {
+            using (SqlCommand cmd = new SqlCommand($"UPDATE production.Brands SET COUNTRY_NAME = @countryName WHERE BRAND_ID = @BrandID", conn))
+            {
+                cmd.Parameters.AddWithValue("@countryName", countryName);
+                cmd.Parameters.AddWithValue("@countryID", countryID);
+                return cmd.ExecuteNonQuery();
+            }
+        }
     }
-}
+ }

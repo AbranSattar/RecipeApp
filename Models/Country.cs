@@ -10,12 +10,12 @@ namespace RecipeApp.Models
     public class Country
     {
         public int countryID { get; set; }
-        public string country { get; set; }
+        public string countryName { get; set; }
 
         public Country(int cID, string c)
         {
             cID = countryID;
-            c = country;
+            c = countryName;
         }
     }
 }
