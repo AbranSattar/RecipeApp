@@ -33,12 +33,12 @@ namespace RecipeApp
                     }
                 case "3":
                     {
-                        //DeleteCountryName();
+                        DeleteCountry();
                         break;
                     }
                 case "4":
                     {
-                        //InsertCountryName();
+                        InsertCountry();
                         break;
                     }
                 case "5":
@@ -63,6 +63,24 @@ namespace RecipeApp
             int rowsAffected = storageManager.UpdateCountryName(countryID, countryName);
             view.DisplayMessage($"rows Affected: {rowsAffected}");
 
+        }
+        private static void InsertCountry()
+        {
+            view.DisplayMessage("Enter new country: ");
+            string countryName = view.GetInput();
+            int countryID = 0;
+            Country country1 = new Country(countryID, countryName);
+            int generatedID = storageManager.InsertCountry(country1);
+            view.DisplayMessage($"New country inserted with id: {generatedID}");
+
+        }
+
+        private static void DeleteCountry()
+        {
+            view.DisplayMessage("Enter the country name to delete: ");
+            string countryName = view.GetInput();
+            int rowsAffected = storageManager.DeleteCountry(countryName);
+            view.DisplayMessage($"Rows Affected: {rowsAffected}");
         }
     }
 }
