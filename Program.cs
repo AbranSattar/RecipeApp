@@ -1,4 +1,5 @@
 ﻿using Microsoft.Identity.Client.Extensions.Msal;
+using RecipeApp.Models;
 using RecipeApp.Repositories;
 
 namespace RecipeApp
@@ -56,10 +57,10 @@ namespace RecipeApp
         private static void UpdateCountryName()
         {
             view.DisplayMessage("Ener the CountryID to update: ");
-            int countryID = ConsoleView.GetIntInput();
+            int countryID = view.GetIntInput();
             view.DisplayMessage("Enter the new brand name: ");
-            string countryName = ConsoleView.GetInput();
-            int rowsAffected = StorageManager.UpdateCountryName(countryID, countryName);
+            string countryName = view.GetInput();
+            int rowsAffected = storageManager.UpdateCountryName(countryID, countryName);
             view.DisplayMessage($"rows Affected: {rowsAffected}");
 
         }
