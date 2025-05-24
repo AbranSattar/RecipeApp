@@ -35,7 +35,7 @@ namespace RecipeApp.Repositories
 
         public List<Country> GetAllCountries()
         {
-            List<Country> Countries = new List<Country>();
+			List<Country> countries = new List<Country>();
             string sqlString = "Select * FROM tblCountry";
             using (SqlCommand cmd = new SqlCommand(sqlString, conn))
             {
@@ -45,16 +45,16 @@ namespace RecipeApp.Repositories
                     {
                         int countryID = Convert.ToInt32(reader["CountryID"]);
                         string countryName = reader["Country"].ToString();
-                        Countries.Add(new Country(countryID, countryName));
+						countries.Add(new Country(countryID, countryName));
                     }
                 }
             }
-            return Countries;
+            return countries;
         }
 
         public int UpdateCountryName(int countryID, string countryName)
         {
-            using (SqlCommand cmd = new SqlCommand($"UPDATE tblCountry SET Country = @countryName WHERE CountryID = @CountryID", conn))
+            using (SqlCommand cmd = new SqlCommand($"UPDATE tblCountry SET Country = @countryName WHERE CountryID = @countryID", conn))
             {
                 cmd.Parameters.AddWithValue("@countryName", countryName);
                 cmd.Parameters.AddWithValue("@countryID", countryID);
