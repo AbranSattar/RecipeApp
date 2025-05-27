@@ -1,6 +1,8 @@
-﻿using Microsoft.Identity.Client.Extensions.Msal;
+﻿using System;
+using Microsoft.Identity.Client.Extensions.Msal;
 using RecipeApp.Models;
 using RecipeApp.Repositories;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RecipeApp
 {
@@ -9,12 +11,11 @@ namespace RecipeApp
 
         private static StorageManager storageManager;
         private static ConsoleView view;
-
         static void Main(string[] args)
         {
-            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Abran Sattar\\OneDrive - Avondale College\\TPI 11\\12 TPI SQL DATABASE\\RecipeApp\\DBFile\\RecipeDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\ac148776\\OneDrive - Avondale College\\TPI 11\\12 TPI SQL DATABASE\\RecipeApp\\DBFile\\RecipeDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
             storageManager = new StorageManager(connectionString);
-            ConsoleView view = new ConsoleView();
+            view = new ConsoleView();
             string choice = view.DisplayMenu();
 
             switch (choice)
@@ -27,17 +28,17 @@ namespace RecipeApp
                     }
                 case "2":
                     {
-                        UpdateCountryName();
+                        UpdateCountry();
                         break;
                     }
                 case "3":
                     {
-                        DeleteCountry();
+                        InsertCountry();
                         break;
                     }
                 case "4":
                     {
-                        InsertCountry();
+                        DeleteCountry();
                         break;
                     }
                 case "5":
@@ -53,13 +54,14 @@ namespace RecipeApp
             }
         }
 
-        private static void UpdateCountryName()
+        private static void UpdateCountry()
         {
-            view.DisplayMessage("Ener the CountryID to update: ");
+
+            view.DisplayMessage("Enter the CountryID to update: ");
             int countryID = view.GetIntInput();
             view.DisplayMessage("Enter the new brand name: ");
             string countryName = view.GetInput();
-            int rowsAffected = storageManager.UpdateCountryName(countryID, countryName);
+            int rowsAffected = storageManager.UpdateCountry(countryID, countryName);
             view.DisplayMessage($"rows Affected: {rowsAffected}");
 
         }

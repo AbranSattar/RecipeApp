@@ -52,7 +52,7 @@ namespace RecipeApp.Repositories
             return countries;
         }
 
-        public int UpdateCountryName(int countryID, string countryName)
+        public int UpdateCountry(int countryID, string countryName)
         {
             using (SqlCommand cmd = new SqlCommand($"UPDATE tblCountry SET Country = @countryName WHERE CountryID = @countryID", conn))
             {

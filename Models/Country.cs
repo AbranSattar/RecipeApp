@@ -14,8 +14,8 @@ namespace RecipeApp.Models
 
         public Country(int cID, string c)
         {
-            cID = countryID;
-			c = countryName;
-		}
+            countryID = cID;
+            countryName = c;
+        }
     }
 }
