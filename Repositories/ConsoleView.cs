@@ -14,7 +14,7 @@ namespace RecipeApp.Repositories
             Console.WriteLine("--- RECIPE DATABASE ---");
             Console.WriteLine("MENU:");
             Console.WriteLine("1. Register");
-            Console.WriteLine("2. Register");
+            Console.WriteLine("2. Login");
            
             return Console.ReadLine();
         }

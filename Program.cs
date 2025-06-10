@@ -16,8 +16,24 @@ namespace RecipeApp
             string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\ac148776\\OneDrive - Avondale College\\TPI 11\\12 TPI SQL DATABASE\\RecipeApp\\DBFile\\RecipeDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
             storageManager = new StorageManager(connectionString);
             view = new ConsoleView();
-            string choice = view.DisplayMenu();
+            string Menu = view.DisplayMenu();
 
+            switch (Menu)
+            {
+                case "1":
+                    {
+                        UserRegister();
+                    }
+                case "2":
+                    {
+                        UserLogin();
+                    }
+                default:
+                    {
+                        Console.WriteLine("Error 404 wtf");
+                    }
+            }
+            /*
             switch (choice)
             {
                 case "1":
@@ -51,7 +67,7 @@ namespace RecipeApp
                         Console.WriteLine("Invalid option. Please try again.");
                         break;
                     }
-            }
+            }*/
         }
 
         private static void UpdateCountry()
