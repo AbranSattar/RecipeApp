@@ -11,12 +11,11 @@ namespace RecipeApp.Repositories
     {
         public string DisplayMenu()
         {
-            Console.WriteLine("Welcome to my Recipe Database");
-            Console.WriteLine("Menu:");
-            Console.WriteLine("1. View all records in Countries");
-            Console.WriteLine("2. Update a countries name by ID");
-            Console.WriteLine("3. insert a new country");
-            Console.WriteLine("4. delete a country by name");
+            Console.WriteLine("--- RECIPE DATABASE ---");
+            Console.WriteLine("MENU:");
+            Console.WriteLine("1. Register");
+            Console.WriteLine("2. Register");
+           
             return Console.ReadLine();
         }
 
