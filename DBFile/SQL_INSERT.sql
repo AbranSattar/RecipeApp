@@ -102,6 +102,12 @@
 ('Malaysia'),
 ('Maldives');
 
+INSERT INTO tblRole (RoleID, Role)
+VALUES 
+(1, 'Admin'),
+(2, 'Chef'),
+(3, 'User')
+;
 INSERT INTO tblRegion (CountryID, Area)
 VALUES 
 (1, 'Kabul'),
