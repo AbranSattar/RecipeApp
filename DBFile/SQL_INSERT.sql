@@ -349,7 +349,7 @@ INSERT INTO tblStore (SuburbID, Store) VALUES
 (95, 'Coles Sawtell'), (96, 'Woolworths Boambee'), (97, 'Coles Clinton'), (98, 'Woolworths Kin Kora'),
 (99, 'Coles Urangan'), (100, 'Woolworths Point Vernon');
 
-INSERT INTO tblChef (FirstName, LastName, Email) VALUES
+INSERT INTO tblUser (FirstName, LastName, Email, UserName, RoleID, Password) VALUES
 -- Chef Entries
 ('Gordon', 'Ramsay', 'gordon.ramsay@example.com'),
 ('Jamie', 'Oliver', 'jamie.oliver@example.com'),

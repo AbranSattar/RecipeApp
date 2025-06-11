@@ -22,11 +22,11 @@ namespace RecipeApp
             {
                 case "1":
                     {
-                        UserRegister();
+                        Register();
                     }
                 case "2":
                     {
-                        UserLogin();
+                        Login();
                     }
                 default:
                     {
