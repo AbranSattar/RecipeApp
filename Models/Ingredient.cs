@@ -8,5 +8,13 @@ namespace RecipeApp.Models
 {
     internal class Ingredient
     {
-    }
+		public int IngredientID { get; set; }
+		public string Ingredient { get; set; }
+
+		public Ingredient(int ingredientID, string ingredient)
+		{
+			IngredientID = ingredientID;
+			Ingredient = ingredient;
+		}
+	}
 }

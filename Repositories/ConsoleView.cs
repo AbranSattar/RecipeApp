@@ -26,7 +26,70 @@ namespace RecipeApp.Repositories
                 Console.WriteLine($"{country.countryID}, {country.countryName}");
             }
         }
-        public void DisplayMessage(string message)
+		public void DisplayRoles(List<Role> roles)
+		{
+			foreach (Role role in roles)
+			{
+				Console.WriteLine($"{role.roleID}, {role.role}");
+			}
+		}
+		public void DisplayRegions(List<Region> regions)
+		{
+			foreach (Region region in regions)
+			{
+				Console.WriteLine($"{region.regionID}, {region.Area}");
+			}
+		}
+		public void DisplayCities(List<City> cities)
+		{
+			foreach (City city in cities)
+			{
+				Console.WriteLine($"{city.cityID}, {city.city}");
+			}
+		}
+		public void DisplaySuburbs(List<Suburb> suburbs)
+		{
+			foreach (Suburb suburb in suburbs)
+			{
+				Console.WriteLine($"{suburb.suburbID}, {suburb.suburb}");
+			}
+		}
+		public void DisplayStores(List<Store> stores)
+		{
+			foreach (Store store in stores)
+			{
+				Console.WriteLine($"{store.storeID}, {store.store}");
+			}
+		}
+		public void DisplayUsers(List<User> users)
+		{
+			foreach (User user in users)
+			{
+				Console.WriteLine($"{user.userID}, {user.UserName}");
+			}
+		}
+		public void DisplayCategories(List<Category> categories)
+		{
+			foreach (Category category in categories)
+			{
+				Console.WriteLine($"{category.CategoryID}, {category.Category}");
+			}
+		}
+		public void DisplayRecipes(List<Recipe> recipes)
+		{
+			foreach (Recipe recipe in recipes)
+			{
+				Console.WriteLine($"{recipe.RecipeID}, {recipe.Title}");
+			}
+		}
+		public void DisplayIngredients(List<Ingredient> ingredients)
+		{
+			foreach (Ingredient ingredient in ingredients)
+			{
+				Console.WriteLine($"{ingredient.IngredientID}, {ingredient.Ingredient}");
+			}
+		}
+		public void DisplayMessage(string message)
         {
             Console.WriteLine(message);
         }

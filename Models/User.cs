@@ -8,15 +8,6 @@ namespace RecipeApp.Models
 {
     internal class User
     {
-        /*CREATE TABLE tblUser (
-        UserID int NOT NULL IDENTITY(1,1) PRIMARY KEY,
-        FirstName VARCHAR(30),
-LastName VARCHAR(50),
-Email VARCHAR(255),
-UserName VARCHAR(255),
-RoleID int NOT NULL FOREIGN KEY REFERENCES tblRole(RoleID),
-Password VARCHAR(255));
-GO*/
         public int userID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
