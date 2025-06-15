@@ -35,41 +35,6 @@ namespace RecipeApp
                         Console.WriteLine("Error 404 wtf");
                     }
             }
-            /*
-            switch (choice)
-            {
-                case "1":
-                    {
-                        List<Country> countries = storageManager.GetAllCountries();
-                        view.DisplayCountries(countries);
-                        break;
-                    }
-                case "2":
-                    {
-                        UpdateCountry();
-                        break;
-                    }
-                case "3":
-                    {
-                        InsertCountry();
-                        break;
-                    }
-                case "4":
-                    {
-                        DeleteCountry();
-                        break;
-                    }
-                case "5":
-                    {
-                        //exit = true;
-                        break;
-                    }
-                default:
-                    {
-                        Console.WriteLine("Invalid option. Please try again.");
-                        break;
-                    }
-            }*/
         }
 
         //Country CRUD operations
@@ -132,6 +97,122 @@ namespace RecipeApp
 			string role = view.GetInput();
 			int rowsAffected = storageManager.DeleteRole(role);
 			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+		}
+		// CRUD operations for Region
+
+        private static void UpdateRegion()
+		{
+			view.DisplayMessage("Enter the RegionID to update: ");
+			int regionID = view.GetIntInput();
+			view.DisplayMessage("Enter the new Area: ");
+			string area = view.GetInput();
+			int rowsAffected = storageManager.UpdateRegion(regionID, area);
+			view.DisplayMessage($"rows Affected: {rowsAffected}");
+		}
+		private static void InsertRegion()
+		{
+			view.DisplayMessage("Enter new Area: ");
+			string area = view.GetInput();
+			int regionID = 0;
+			Region region1 = new Region(regionID, area);
+			int generatedID = storageManager.InsertRegion(region1);
+			view.DisplayMessage($"New region inserted with id: {generatedID}");
+		}
+		private static void DeleteRegion()
+		{
+			view.DisplayMessage("Enter the Area to delete: ");
+			string area = view.GetInput();
+			int rowsAffected = storageManager.DeleteRegion(area);
+			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+		}
+
+		// CRUD operations for City
+		private static void UpdateCity()
+		{
+			view.DisplayMessage("Enter the CityID to update: ");
+			int cityID = view.GetIntInput();
+			view.DisplayMessage("Enter the new City: ");
+			string city = view.GetInput();
+			int rowsAffected = storageManager.UpdateCity(cityID, city);
+			view.DisplayMessage($"rows Affected: {rowsAffected}");
+		}
+		private static void InsertCity()
+		{
+			view.DisplayMessage("Enter new City: ");
+			string city = view.GetInput();
+			int cityID = 0;
+			City city1 = new City(cityID, city);
+			int generatedID = storageManager.InsertCity(city1);
+			view.DisplayMessage($"New city inserted with id: {generatedID}");
+		}
+		private static void DeleteCity()
+		{
+			view.DisplayMessage("Enter the City to delete: ");
+			string city = view.GetInput();
+			int rowsAffected = storageManager.DeleteCity(city);
+			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+		}
+		// CRUD operations for Suburb
+		private static void UpdateSuburb()
+		{
+			view.DisplayMessage("Enter the SuburbID to update: ");
+			int suburbID = view.GetIntInput();
+			view.DisplayMessage("Enter the new Suburb: ");
+			string suburb = view.GetInput();
+			int rowsAffected = storageManager.UpdateSuburb(suburbID, suburb);
+			view.DisplayMessage($"rows Affected: {rowsAffected}");
+		}
+		private static void InsertSuburb()
+		{
+			view.DisplayMessage("Enter new Suburb: ");
+			string suburb = view.GetInput();
+			int suburbID = 0;
+			Suburb suburb1 = new Suburb(suburbID, suburb);
+			int generatedID = storageManager.InsertSuburb(suburb1);
+			view.DisplayMessage($"New suburb inserted with id: {generatedID}");
+		}
+		private static void DeleteSuburb()
+		{
+			view.DisplayMessage("Enter the Suburb to delete: ");
+			string suburb = view.GetInput();
+			int rowsAffected = storageManager.DeleteSuburb(suburb);
+			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+		}
+		// CRUD operations for Store
+		private static void UpdateStore()
+		{
+			view.DisplayMessage("Enter the StoreID to update: ");
+			int storeID = view.GetIntInput();
+			view.DisplayMessage("Enter the new Store: ");
+			string store = view.GetInput();
+			int rowsAffected = storageManager.UpdateStore(storeID, store);
+			view.DisplayMessage($"rows Affected: {rowsAffected}");
+		}
+		private static void InsertStore()
+		{
+			view.DisplayMessage("Enter new Store: ");
+			string store = view.GetInput();
+			int storeID = 0;
+			Store store1 = new Store(storeID, store);
+			int generatedID = storageManager.InsertStore(store1);
+			view.DisplayMessage($"New store inserted with id: {generatedID}");
+		}
+		private static void DeleteStore()
+		{
+			view.DisplayMessage("Enter the Store to delete: ");
+			string store = view.GetInput();
+			int rowsAffected = storageManager.DeleteStore(store);
+			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+		}
+		private static void Register()
+		{
+			// Registration logic here
+			view.DisplayMessage("Registration not implemented yet.");
+		}
+		private static void Login()
+		{
+			// Login logic here
+			view.DisplayMessage("Login not implemented yet.");
 		}
 	}
 }

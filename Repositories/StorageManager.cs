@@ -106,6 +106,111 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
+        // CRUD operations for Region
+
+        public int UpdateRegion(int regionID, string regionName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblRegion SET Region = @regionName WHERE RegionID = @regionID", conn))
+			{
+				cmd.Parameters.AddWithValue("@regionName", regionName);
+				cmd.Parameters.AddWithValue("@regionID", regionID);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		public int InsertRegion(Region regionTemp)
+		{
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblRegion (Region) VALUES (@regionName); SELECT SCOPE_IDENTITY();", conn))
+			{
+				cmd.Parameters.AddWithValue("@regionName", regionTemp.Area);
+				return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+		public int DeleteRegion(string regionName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblRegion WHERE Region = @regionName;", conn))
+			{
+				cmd.Parameters.AddWithValue("@regionName", regionName);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		// CRUD operations for City
+		public int UpdateCity(int cityID, string cityName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblCity SET City = @cityName WHERE CityID = @cityID", conn))
+			{
+				cmd.Parameters.AddWithValue("@cityName", cityName);
+				cmd.Parameters.AddWithValue("@cityID", cityID);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		public int InsertCity(City cityTemp)
+		{
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblCity (City) VALUES (@cityName); SELECT SCOPE_IDENTITY();", conn))
+			{
+				cmd.Parameters.AddWithValue("@cityName", cityTemp.city);
+				return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+		public int DeleteCity(string cityName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblCity WHERE City = @cityName;", conn))
+			{
+				cmd.Parameters.AddWithValue("@cityName", cityName);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		// CRUD operations for Suburb
+		public int UpdateSuburb(int suburbID, string suburbName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblSuburb SET Suburb = @suburbName WHERE SuburbID = @suburbID", conn))
+			{
+				cmd.Parameters.AddWithValue("@suburbName", suburbName);
+				cmd.Parameters.AddWithValue("@suburbID", suburbID);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		public int InsertSuburb(Suburb suburbTemp)
+		{
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblSuburb (Suburb) VALUES (@suburbName); SELECT SCOPE_IDENTITY();", conn))
+			{
+				cmd.Parameters.AddWithValue("@suburbName", suburbTemp.suburb);
+				return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+		public int DeleteSuburb(string suburbName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblSuburb WHERE Suburb = @suburbName;", conn))
+			{
+				cmd.Parameters.AddWithValue("@suburbName", suburbName);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		// CRUD operations for Store
+		public int UpdateStore(int storeID, string storeName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblStore SET Store = @storeName WHERE StoreID = @storeID", conn))
+			{
+				cmd.Parameters.AddWithValue("@storeName", storeName);
+				cmd.Parameters.AddWithValue("@storeID", storeID);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		public int InsertStore(Store storeTemp)
+		{
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblStore (Store) VALUES (@storeName); SELECT SCOPE_IDENTITY();", conn))
+			{
+				cmd.Parameters.AddWithValue("@storeName", storeTemp.store);
+				return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+		public int DeleteStore(string storeName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblStore WHERE Store = @storeName;", conn))
+			{
+				cmd.Parameters.AddWithValue("@storeName", storeName);
+				return cmd.ExecuteNonQuery();
+			}
+		}
 		// Close the connection
 		public void CloseConnection()
         {
