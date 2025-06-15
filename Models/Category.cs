@@ -9,12 +9,12 @@ namespace RecipeApp.Models
     internal class Category
     {
 		public int CategoryID { get; set; }
-		public string Category { get; set; }
+		public string CategoryName { get; set; }
 
 		public Category(int categoryID, string category)
 		{
 			CategoryID = categoryID;
-			Category = category;
+			CategoryName = category;
 		}
 	}
 }

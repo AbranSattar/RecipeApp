@@ -21,6 +21,7 @@ namespace RecipeApp.Repositories
 
         public void DisplayCountries(List<Country> countries)
         {
+
             foreach (Country country in countries)
             {
                 Console.WriteLine($"{country.countryID}, {country.countryName}");
@@ -37,7 +38,7 @@ namespace RecipeApp.Repositories
 		{
 			foreach (Region region in regions)
 			{
-				Console.WriteLine($"{region.regionID}, {region.Area}");
+				Console.WriteLine($"{region.regionID}, {region.Area},");
 			}
 		}
 		public void DisplayCities(List<City> cities)
@@ -72,7 +73,7 @@ namespace RecipeApp.Repositories
 		{
 			foreach (Category category in categories)
 			{
-				Console.WriteLine($"{category.CategoryID}, {category.Category}");
+				Console.WriteLine($"{category.CategoryID}, {category.CategoryName}");
 			}
 		}
 		public void DisplayRecipes(List<Recipe> recipes)
@@ -86,7 +87,7 @@ namespace RecipeApp.Repositories
 		{
 			foreach (Ingredient ingredient in ingredients)
 			{
-				Console.WriteLine($"{ingredient.IngredientID}, {ingredient.Ingredient}");
+				Console.WriteLine($"{ingredient.IngredientID}, {ingredient.IngredientName}");
 			}
 		}
 		public void DisplayMessage(string message)

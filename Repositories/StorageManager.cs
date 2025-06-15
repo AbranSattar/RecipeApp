@@ -35,9 +35,9 @@ namespace RecipeApp.Repositories
 
         public List<Country> GetAllCountries()
         {
-			List<Country> countries = new List<Country>();
-            string sqlString = "Select * FROM tblCountry";
-            using (SqlCommand cmd = new SqlCommand(sqlString, conn))
+            List<Country> countries = new List<Country>();
+            string allCountries = "Select * FROM tblCountry";
+            using (SqlCommand cmd = new SqlCommand(allCountries, conn))
             {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
