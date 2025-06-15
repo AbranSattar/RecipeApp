@@ -115,22 +115,22 @@ namespace RecipeApp
 			view.DisplayMessage($"rows Affected: {rowsAffected}");
 
 		}
-		private static void InsertCountry()
+		private static void InsertRole()
 		{
-			view.DisplayMessage("Enter new country: ");
-			string countryName = view.GetInput();
-			int countryID = 0;
-			Country country1 = new Country(countryID, countryName);
-			int generatedID = storageManager.InsertCountry(country1);
-			view.DisplayMessage($"New country inserted with id: {generatedID}");
+			view.DisplayMessage("Enter new Role: ");
+			string role = view.GetInput();
+			int roleID = 0;
+			Role role1 = new Role(roleID, role);
+			int generatedID = storageManager.InsertRole(role1);
+			view.DisplayMessage($"New role inserted with id: {generatedID}");
 
 		}
 
-		private static void DeleteCountry()
+		private static void DeleteRole()
 		{
-			view.DisplayMessage("Enter the country name to delete: ");
-			string countryName = view.GetInput();
-			int rowsAffected = storageManager.DeleteCountry(countryName);
+			view.DisplayMessage("Enter the role to delete: ");
+			string role = view.GetInput();
+			int rowsAffected = storageManager.DeleteRole(role);
 			view.DisplayMessage($"Rows Affected: {rowsAffected}");
 		}
 	}

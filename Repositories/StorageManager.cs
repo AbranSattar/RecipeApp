@@ -89,6 +89,23 @@ namespace RecipeApp.Repositories
 			}
 		}
 
+		public int InsertRole(Role roleTemp)
+		{
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblRole (Role) VALUES (@role); SELECT SCOPE_IDENTITY();", conn))
+			{
+				cmd.Parameters.AddWithValue("@role", roleTemp.role);
+				return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+
+		public int DeleteRole(string role)
+		{
+			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblRole WHERE Role = @role;", conn))
+			{
+				cmd.Parameters.AddWithValue("@role", role);
+				return cmd.ExecuteNonQuery();
+			}
+		}
 		// Close the connection
 		public void CloseConnection()
         {
