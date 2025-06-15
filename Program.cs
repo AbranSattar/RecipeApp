@@ -23,10 +23,12 @@ namespace RecipeApp
                 case "1":
                     {
                         Register();
+                        break;
                     }
                 case "2":
                     {
                         Login();
+                        break;
                     }
                 default:
                     {
@@ -70,6 +72,7 @@ namespace RecipeApp
             }*/
         }
 
+        //Country CRUD operations
         private static void UpdateCountry()
         {
 
@@ -99,5 +102,36 @@ namespace RecipeApp
             int rowsAffected = storageManager.DeleteCountry(countryName);
             view.DisplayMessage($"Rows Affected: {rowsAffected}");
         }
-    }
+		// Role CRUD operations
+
+		private static void UpdateRole()
+		{
+
+			view.DisplayMessage("Enter the RoleID to update: ");
+			int roleID = view.GetIntInput();
+			view.DisplayMessage("Enter the new Role: ");
+			string role = view.GetInput();
+			int rowsAffected = storageManager.UpdateRole(roleID, role);
+			view.DisplayMessage($"rows Affected: {rowsAffected}");
+
+		}
+		private static void InsertCountry()
+		{
+			view.DisplayMessage("Enter new country: ");
+			string countryName = view.GetInput();
+			int countryID = 0;
+			Country country1 = new Country(countryID, countryName);
+			int generatedID = storageManager.InsertCountry(country1);
+			view.DisplayMessage($"New country inserted with id: {generatedID}");
+
+		}
+
+		private static void DeleteCountry()
+		{
+			view.DisplayMessage("Enter the country name to delete: ");
+			string countryName = view.GetInput();
+			int rowsAffected = storageManager.DeleteCountry(countryName);
+			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+		}
+	}
 }

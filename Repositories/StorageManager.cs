@@ -51,8 +51,8 @@ namespace RecipeApp.Repositories
             }
             return countries;
         }
-
-        public int UpdateCountry(int countryID, string countryName)
+		// Country CRUD Operations
+		public int UpdateCountry(int countryID, string countryName)
         {
             using (SqlCommand cmd = new SqlCommand($"UPDATE tblCountry SET Country = @countryName WHERE CountryID = @countryID", conn))
             {
@@ -78,7 +78,19 @@ namespace RecipeApp.Repositories
                 return cmd.ExecuteNonQuery();
             }
         }
-        public void CloseConnection()
+		//Role CRUD Operations
+		public int UpdateRole(int roleID, string role)
+		{
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblRole SET Role = @role WHERE RoleID = @roleID", conn))
+			{
+				cmd.Parameters.AddWithValue("@role", role);
+				cmd.Parameters.AddWithValue("@roleID", roleID);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+
+		// Close the connection
+		public void CloseConnection()
         {
             if (conn != null && conn.State == ConnectionState.Open)
             {
