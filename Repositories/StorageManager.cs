@@ -195,6 +195,15 @@ namespace RecipeApp.Repositories
 				return Convert.ToInt32(cmd.ExecuteScalar());
 			}
 		}
+		public int GetSuburbIDByName(string suburb)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT SuburbID FROM tblSuburb WHERE Suburb = @suburbName", conn))
+			{
+				cmd.Parameters.AddWithValue("@suburbName", suburb);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
+			}
+		}
 		public int DeleteSuburb(string suburbName)
 		{
 			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblSuburb WHERE Suburb = @suburbName;", conn))

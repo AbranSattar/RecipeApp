@@ -161,7 +161,7 @@ namespace RecipeApp
 		{
 			view.DisplayMessage("Enter the SuburbID to update: ");
 			int suburbID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Suburb: ");
+			view.DisplayMessage("Enter the new Name: ");
 			string suburb = view.GetInput();
 			int rowsAffected = storageManager.UpdateSuburb(suburbID, suburb);
 			view.DisplayMessage($"rows Affected: {rowsAffected}");
@@ -170,11 +170,13 @@ namespace RecipeApp
 		{
 			view.DisplayMessage("Enter new Suburb: ");
 			string suburb = view.GetInput();
+			view.DisplayMessage("Enter Zipcode of Suburb: ");
+			int zipcode = view.GetIntInput();
 			view.DisplayMessage("Enter City of Suburb: ");
 			string city = view.GetInput();
 			int cityID = storageManager.GetCityIDByName(city);
 			int suburbID = 0;
-			Suburb suburb1 = new Suburb(suburbID, suburb);
+			Suburb suburb1 = new Suburb(suburbID, cityID, suburb, zipcode);
 			int generatedID = storageManager.InsertSuburb(suburb1);
 			view.DisplayMessage($"New suburb inserted with id: {generatedID}");
 		}
@@ -199,11 +201,15 @@ namespace RecipeApp
 		{
 			view.DisplayMessage("Enter new Store: ");
 			string store = view.GetInput();
+			view.DisplayMessage("Enter Suburb of Store: ");
+			string suburb = view.GetInput();
+			int suburbID = storageManager.GetSuburbIDByName(suburb);
 			int storeID = 0;
-			Store store1 = new Store(storeID, store);
+			Store store1 = new Store(storeID, suburbID, store);
 			int generatedID = storageManager.InsertStore(store1);
 			view.DisplayMessage($"New store inserted with id: {generatedID}");
 		}
+
 		private static void DeleteStore()
 		{
 			view.DisplayMessage("Enter the Store to delete: ");
