@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Transactions;
 using Microsoft.Identity.Client.Extensions.Msal;
 using RecipeApp.Models;
 using RecipeApp.Repositories;
@@ -113,8 +114,11 @@ namespace RecipeApp
 		{
 			view.DisplayMessage("Enter new Area: ");
 			string area = view.GetInput();
+			view.DisplayMessage("Enter Country of Area: ");
+			string country = view.GetInput();
+			int countryID = storageManager.GetCountryIDByName(country);
 			int regionID = 0;
-			Region region1 = new Region(regionID, area);
+			Region region1 = new Region(regionID, countryID, area);
 			int generatedID = storageManager.InsertRegion(region1);
 			view.DisplayMessage($"New region inserted with id: {generatedID}");
 		}
@@ -204,6 +208,8 @@ namespace RecipeApp
 			int rowsAffected = storageManager.DeleteStore(store);
 			view.DisplayMessage($"Rows Affected: {rowsAffected}");
 		}
+		//CRUD operations for User
+
 		private static void Register()
 		{
 			// Registration logic here

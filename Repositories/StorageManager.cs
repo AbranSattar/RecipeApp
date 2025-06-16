@@ -119,10 +119,19 @@ namespace RecipeApp.Repositories
 		}
 		public int InsertRegion(Region regionTemp)
 		{
-			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblRegion (Region) VALUES (@regionName); SELECT SCOPE_IDENTITY();", conn))
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblRegion (Region) VALUES (@regionName), (@countryID); SELECT SCOPE_IDENTITY();", conn))
 			{
 				cmd.Parameters.AddWithValue("@regionName", regionTemp.Area);
 				return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+		public int GetCountryIDByName(string country)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT CountryID FROM tblCountry WHERE Country = @countryName", conn))
+			{
+				cmd.Parameters.AddWithValue("@countryName", country);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
 			}
 		}
 		public int DeleteRegion(string regionName)
@@ -185,6 +194,8 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
+
+
 		// CRUD operations for Store
 		public int UpdateStore(int storeID, string storeName)
 		{
