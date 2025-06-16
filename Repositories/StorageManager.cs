@@ -160,6 +160,15 @@ namespace RecipeApp.Repositories
 				return Convert.ToInt32(cmd.ExecuteScalar());
 			}
 		}
+		public int GetCityIDByName(string city)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT CityID FROM tblCity WHERE City = @cityName", conn))
+			{
+				cmd.Parameters.AddWithValue("@cityName", city);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
+			}
+		}
 		public int DeleteCity(string cityName)
 		{
 			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblCity WHERE City = @cityName;", conn))

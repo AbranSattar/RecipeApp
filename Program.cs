@@ -170,6 +170,9 @@ namespace RecipeApp
 		{
 			view.DisplayMessage("Enter new Suburb: ");
 			string suburb = view.GetInput();
+			view.DisplayMessage("Enter City of Suburb: ");
+			string city = view.GetInput();
+			int cityID = storageManager.GetCityIDByName(city);
 			int suburbID = 0;
 			Suburb suburb1 = new Suburb(suburbID, suburb);
 			int generatedID = storageManager.InsertSuburb(suburb1);
