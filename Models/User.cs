@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecipeApp.Models
 {
-    internal class User
+    public class User
     {
         public int userID { get; set; }
         public string FirstName { get; set; }

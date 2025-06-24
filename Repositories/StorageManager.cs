@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Azure.Identity;
 using Microsoft.Data.SqlClient;
 using RecipeApp.Models;
 
@@ -97,7 +98,15 @@ namespace RecipeApp.Repositories
 				return Convert.ToInt32(cmd.ExecuteScalar());
 			}
 		}
-
+		public int GetRoleIDByName(string roleName)
+		{
+			using (SqlCommand cmd = new SqlCommand("SELECT roleID FROM Role WHERE role = @roleName", conn))
+			{
+				cmd.Parameters.AddWithValue("@roleName", roleName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1;
+			}
+		}
 		public int DeleteRole(string role)
 		{
 			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblRole WHERE Role = @role;", conn))
@@ -240,8 +249,146 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
-		// Close the connection
-		public void CloseConnection()
+		//CRUD operations for User
+		public int UpdateUser(int userID, string username, string password, int roleID)
+		{
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblUser SET Username = @username, Password = @password, RoleID = @roleID WHERE UserID = @userID", conn))
+			{
+				cmd.Parameters.AddWithValue("@username", username);
+				cmd.Parameters.AddWithValue("@password", password);
+				cmd.Parameters.AddWithValue("@roleID", roleID);
+				cmd.Parameters.AddWithValue("@userID", userID);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		public int InsertUser(User userTemp)
+		{
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblUser (Username, Password, RoleID) VALUES (@username, @password, @roleID); SELECT SCOPE_IDENTITY();", conn))
+			{
+				cmd.Parameters.AddWithValue("@username", userTemp.UserName);
+				cmd.Parameters.AddWithValue("@password", userTemp.Password);
+				cmd.Parameters.AddWithValue("@roleID", userTemp.roleID);
+				return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+		public int DeleteUser(string username)
+		{
+			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblUser WHERE Username = @username;", conn))
+			{
+				cmd.Parameters.AddWithValue("@username", username);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		// CRUD operations for category
+		public int UpdateCategory(int categoryID, string categoryName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblCategory SET Category = @categoryName WHERE CategoryID = @categoryID", conn))
+			{
+				cmd.Parameters.AddWithValue("@categoryName", categoryName);
+				cmd.Parameters.AddWithValue("@categoryID", categoryID);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		public int InsertCategory(Category categoryTemp)
+		{
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblCategory (Category) VALUES (@categoryName); SELECT SCOPE_IDENTITY();", conn))
+			{
+				cmd.Parameters.AddWithValue("@categoryName", categoryTemp.CategoryName);
+				return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+		public int DeleteCategory(string categoryName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblCategory WHERE Category = @categoryName;", conn))
+			{
+				cmd.Parameters.AddWithValue("@categoryName", categoryName);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		//CRUD for Recipe
+		public int UpdateRecipe(int recipeID, string Title, string Method, int CategoryID, int RegionID)
+		{
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblRecipe SET Title = @Title, Method = @Method, CategoryID = @CategoryID , RegionID = @Region ID WHERE RecipeID = @recipeID", conn))
+			{
+				cmd.Parameters.AddWithValue("@Title", Title);
+				cmd.Parameters.AddWithValue("@Method", Method);
+				cmd.Parameters.AddWithValue("@RegionID", RegionID);
+				cmd.Parameters.AddWithValue("@RecipeID", recipeID);
+                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+                return cmd.ExecuteNonQuery();
+			}
+		}
+		public int InsertRecipe(Recipe recipeTemp)
+		{
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblRecipe (Title, Method, CategoryID, UserID, RegionID) VALUES (@Title, @Method, @categoryID, @UserID, @RegionID); SELECT SCOPE_IDENTITY();", conn))
+			{
+				cmd.Parameters.AddWithValue("@recipeName", recipeTemp.Title);
+				cmd.Parameters.AddWithValue("@description", recipeTemp.Method);
+				cmd.Parameters.AddWithValue("@categoryID", recipeTemp.CategoryID);
+                cmd.Parameters.AddWithValue("@recipeName", recipeTemp.UserID);
+                cmd.Parameters.AddWithValue("@description", recipeTemp.RegionID);
+                return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+		public int DeleteRecipe(string title)
+		{
+			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblRecipe WHERE Title = @title;", conn))
+			{
+				cmd.Parameters.AddWithValue("@title", title);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		// CRUD operations for Ingredients
+		public int UpdateIngredient(int ingredientID, string ingredientName, int recipeID)
+		{
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblIngredient SET IngredientName = @ingredientName, RecipeID = @recipeID WHERE IngredientID = @ingredientID", conn))
+			{
+				cmd.Parameters.AddWithValue("@ingredientName", ingredientName);
+				cmd.Parameters.AddWithValue("@recipeID", recipeID);
+				cmd.Parameters.AddWithValue("@ingredientID", ingredientID);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+		public int InsertIngredient(Ingredient ingredientTemp)
+		{
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblIngredient (IngredientName, RecipeID) VALUES (@ingredientName, @recipeID); SELECT SCOPE_IDENTITY();", conn))
+			{
+				cmd.Parameters.AddWithValue("@ingredientName", ingredientTemp.IngredientName);
+				cmd.Parameters.AddWithValue("@recipeID", ingredientTemp.IngredientID);
+				return Convert.ToInt32(cmd.ExecuteScalar());
+			}
+		}
+		public int DeleteIngredient(string ingredientName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblIngredient WHERE IngredientName = @ingredientName;", conn))
+			{
+				cmd.Parameters.AddWithValue("@ingredientName", ingredientName);
+				return cmd.ExecuteNonQuery();
+			}
+		}
+
+        public List<User> SimpleQry1()
+        {
+            List<User> Users = new List<User>();
+            string users = "Select UserName, FirstName, LastName, Email FROM tblUser";
+            using (SqlCommand cmd = new SqlCommand(users, conn))
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string UserName = reader["UserName"].ToString();
+                        string FirstName = reader["FirstName"].ToString();
+						string LastName = reader["LastName"].ToString();
+						string Email = reader["Email"].ToString();
+                        Users.Add(new User( FirstName, LastName, UserName));
+                    }
+                }
+            }
+            return countries;
+        }
+        // Close the connection
+        public void CloseConnection()
         {
             if (conn != null && conn.State == ConnectionState.Open)
             {

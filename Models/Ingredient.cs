@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecipeApp.Models
 {
-    internal class Ingredient
+    public class Ingredient
     {
 		public int IngredientID { get; set; }
 		public string IngredientName { get; set; }

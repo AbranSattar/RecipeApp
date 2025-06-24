@@ -18,8 +18,7 @@ namespace RecipeApp.Repositories
            
             return Console.ReadLine();
         }
-
-        public void DisplayCountries(List<Country> countries)
+		public void DisplayCountries(List<Country> countries)
         {
 
             foreach (Country country in countries)
