@@ -250,13 +250,12 @@ namespace RecipeApp.Repositories
 			}
 		}
 		//CRUD operations for User
-		public int UpdateUser(int userID, string username, string password, int roleID)
+		public int UpdateUser(int userID, string username, string password)
 		{
-			using (SqlCommand cmd = new SqlCommand($"UPDATE tblUser SET Username = @username, Password = @password, RoleID = @roleID WHERE UserID = @userID", conn))
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblUser SET Username = @username, Password = @password WHERE UserID = @userID", conn))
 			{
 				cmd.Parameters.AddWithValue("@username", username);
 				cmd.Parameters.AddWithValue("@password", password);
-				cmd.Parameters.AddWithValue("@roleID", roleID);
 				cmd.Parameters.AddWithValue("@userID", userID);
 				return cmd.ExecuteNonQuery();
 			}
