@@ -353,6 +353,22 @@ namespace RecipeApp
 			int rowsAffected = storageManager.UpdateIngredient(ingredientID, ingredientName);
 			view.DisplayMessage($"rows Affected: {rowsAffected}");
 		}
+		private static void InsertIngredient()
+		{
+			view.DisplayMessage("Enter new Ingredient Name: ");
+			string ingredientName = view.GetInput();
+			int ingredientID = 0;
+			Ingredient ingredient1 = new Ingredient(ingredientID, ingredientName);
+			int generatedID = storageManager.InsertIngredient(ingredient1);
+			view.DisplayMessage($"New ingredient inserted with id: {generatedID}");
+		}
+		private static void DeleteIngredient()
+		{
+			view.DisplayMessage("Enter the Ingredient Name to delete: ");
+			string ingredientName = view.GetInput();
+			int rowsAffected = storageManager.DeleteIngredient(ingredientName);
+			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+		}
 		private static void Register()
 		{
 			// Registration logic here
