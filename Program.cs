@@ -121,7 +121,7 @@ namespace RecipeApp
 				int generatedID = storageManager.InsertRegion(region1);
 				view.DisplayMessage($"New region inserted with id: {generatedID}");
 			}
-			private static void DeleteRegion()
+			private static void DeleteRegion() 
 			{
 				view.DisplayMessage("Enter the Area to delete: ");
 				string area = view.GetInput();

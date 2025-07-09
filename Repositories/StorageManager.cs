@@ -369,18 +369,21 @@ namespace RecipeApp.Repositories
         public List<User> SimpleQry1()
         {
 			List<User> user = new List<User>();
-			string allUsers = "Select UserName, FirstName, LastName, Email FROM tblUser";
+			string allUsers = "Select * FROM tblUser";
 			using (SqlCommand cmd = new SqlCommand(allUsers, conn))
 			{
 				using (SqlDataReader reader = cmd.ExecuteReader())
 				{
 					while (reader.Read())
 					{
-						string UserName = Convert.ToString(reader["UserName"]);
+						int userID = Convert.ToInt32(reader["UserID"]);
 						string FirstName = Convert.ToString(reader["FirstName"]);
 						string LastName = Convert.ToString(reader["LastName"]);
+						string UserName = Convert.ToString(reader["UserName"]);
 						string Email = Convert.ToString(reader["Email"]);
-						user.Add(new User(UserName, FirstName, LastName, Email));
+						int roleID = Convert.ToInt32(reader["RoleID"]);
+
+						user.Add(new User(userID, FirstName, LastName, UserName, Email, roleID));
 					}
 				}
 			}

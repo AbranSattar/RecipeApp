@@ -12,16 +12,18 @@ namespace RecipeApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public int roleID { get; set; }
+        public string Email { get; set; }
+		public int roleID { get; set; }
         public string Password { get; set; }
         
-        public User(int uID, string Fname, string Lname, string Uname, int rID, string Pword)
+        public User(int uID, string Fname, string Lname, string Uname, string email, int rID, string Pword)
         {
             userID = uID;
             FirstName = Fname;
             LastName = Lname;
             UserName = Uname;
-            roleID = rID;
+			Email = email;
+			roleID = rID;
             Password = Pword;
         }
 
