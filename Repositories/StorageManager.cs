@@ -382,15 +382,31 @@ namespace RecipeApp.Repositories
 						string UserName = Convert.ToString(reader["UserName"]);
 						string Email = Convert.ToString(reader["Email"]);
 						int roleID = Convert.ToInt32(reader["RoleID"]);
+						// Assuming the Password field is not needed for this query
 
-						user.Add(new User(userID, FirstName, LastName, UserName, Email, roleID));
+						user.Add(new User(userID, FirstName, LastName, UserName, Email, roleID, null));
 					}
 				}
 			}
 			return user;
 		}
-        // Close the connection
-        public void CloseConnection()
+		public static void CheckIfUserExists(string UserName)
+		{
+			SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM tblUser WHERE UserName = @UserName", conn);
+			cmd.Parameters.AddWithValue("@UserName", UserName);
+			int count = (int)cmd.ExecuteScalar();
+			if (count > 0)
+			{
+				Console.WriteLine("User already exists.");
+			}
+			else
+			{
+				Console.WriteLine("User does not exist.");
+			}
+
+		}
+		// Close the connection
+		public void CloseConnection()
         {
             if (conn != null && conn.State == ConnectionState.Open)
             {

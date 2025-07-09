@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data.SqlTypes;
 using System.Transactions;
+using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client.Extensions.Msal;
 using RecipeApp.Models;
 using RecipeApp.Repositories;
@@ -18,18 +20,23 @@ namespace RecipeApp
 			storageManager = new StorageManager(connectionString);
 			view = new ConsoleView();
 			string Menu = view.DisplayMenu();
-
-			switch(Menu)
+			while (true)
 			{
-				case "1":
-					Register();
-					break;
-				case "2":
-					Login();
-					break;
-				default:
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				switch (Menu)
+				{
+					case "1":
+						Register();
+						break;
+					case "2":
+						Login();
+						break;
+					case "3":
+						Exit();
+						break;
+					default:
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 
@@ -252,7 +259,7 @@ namespace RecipeApp
 
 				int userID = 0;
 			
-				User user1 = new User(userID, firstName, lastName, username, roleID, password);
+				User user1 = new User(userID, firstName, lastName, username,email, roleID, password);
 				int generatedID = storageManager.InsertUser(user1);
 				view.DisplayMessage($"New user inserted with id: {generatedID}");
 			}
@@ -289,18 +296,35 @@ namespace RecipeApp
 				int rowsAffected = storageManager.DeleteCategory(categoryName);
 				view.DisplayMessage($"Rows Affected: {rowsAffected}");
 			}
-		//CRUD operations for Recipe
-
 		private static void Register()
+		{
+			// Registration logic here
+			view.DisplayMessage("Registration Page");
+			view.DisplayMessage("Enter your username: ");
+			string username = view.GetInput();
+			view.DisplayMessage("Enter your password: ");
+			string password = view.GetInput();
+			//checks if username exits
+			if (storageManager.CheckIfUserExists(username))
 			{
-				// Registration logic here
-				view.DisplayMessage("Registration not implemented yet.");
+				view.DisplayMessage("Username already exists. Please choose a different username.");
+				return;
 			}
-			private static void Login()
+			else
+			{
+				view.Disp
+			}
+		}
+		private static void Login()
 			{
 				// Login logic here
 				view.DisplayMessage("Login not implemented yet.");
 			}
+		private static void Exit()
+		{
+			view.DisplayMessage("Exiting the application. Goodbye!");
+			Environment.Exit(0);
+		}
 	} 
 }
 

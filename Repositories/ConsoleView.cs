@@ -15,8 +15,9 @@ namespace RecipeApp.Repositories
             Console.WriteLine("MENU:");
             Console.WriteLine("1. Register");
             Console.WriteLine("2. Login");
-           
-            return Console.ReadLine();
+			Console.WriteLine("3. Exit");
+
+			return Console.ReadLine();
         }
 		public void DisplayCountries(List<Country> countries)
         {
