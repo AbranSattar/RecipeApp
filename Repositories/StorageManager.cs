@@ -341,6 +341,36 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
+		// Get userID by username
+		public int GetUserIDByUsername(string username)
+		{
+			using (SqlCommand cmd = new SqlCommand("SELECT UserID FROM tblUser WHERE UserName = @username", conn))
+			{
+				cmd.Parameters.AddWithValue("@username", username);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1; // lambda if statement if userID is not null then convert and return result, if null then return -1
+			}
+		}
+		//get regionID by name
+		public int GetRegionIDByName(string regionName)
+		{
+			using (SqlCommand cmd = new SqlCommand("SELECT RegionID FROM tblRegion WHERE Region = @regionName", conn))
+			{
+				cmd.Parameters.AddWithValue("@regionName", regionName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
+			}
+		}
+		// get categoryID by name
+		public int GetCategoryIDByName(string categoryName)
+		{
+			using (SqlCommand cmd = new SqlCommand("SELECT CategoryID FROM tblCategory WHERE Category = @categoryName", conn))
+			{
+				cmd.Parameters.AddWithValue("@categoryName", categoryName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
+			}
+		}
 		// CRUD operations for Ingredients
 		public int UpdateIngredient(int ingredientID, string ingredientName, int recipeID)
 		{
@@ -398,7 +428,6 @@ namespace RecipeApp.Repositories
 		{
 			SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM tblUser WHERE UserName = @UserName");
 			cmd.Parameters.AddWithValue("@UserName", UserName);
-			conn.Open();
 			int count = (int)cmd.ExecuteScalar();
 			if (count > 0) 
 			{
@@ -415,7 +444,6 @@ namespace RecipeApp.Repositories
 			SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM tblUser WHERE UserName = @UserName AND Password = @Password", conn);
 			cmd.Parameters.AddWithValue("@UserName", UserName);
 			cmd.Parameters.AddWithValue("@Password", Password);
-			conn.Open();
 			int count = (int)cmd.ExecuteScalar();
 			// If count is greater than 0, the user exists with the provided password
 			if (count > 0)

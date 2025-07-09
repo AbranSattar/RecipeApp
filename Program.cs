@@ -19,9 +19,9 @@ namespace RecipeApp
 			string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\ac148776\\OneDrive - Avondale College\\TPI 11\\12 TPI SQL DATABASE\\RecipeApp\\DBFile\\RecipeDatabase.mdf\";Integrated Security=True;Connect Timeout=30";
 			storageManager = new StorageManager(connectionString);
 			view = new ConsoleView();
-			string Menu = view.DisplayMenu();
 			while (true)
 			{
+				string Menu = view.DisplayMenu();
 				switch (Menu)
 				{
 					case "1":
@@ -34,6 +34,7 @@ namespace RecipeApp
 						Exit();
 						break;
 					default:
+						Console.Clear();
 						view.DisplayMessage("Invalid option. Please try again.");
 						break;
 				}
@@ -296,6 +297,53 @@ namespace RecipeApp
 				int rowsAffected = storageManager.DeleteCategory(categoryName);
 				view.DisplayMessage($"Rows Affected: {rowsAffected}");
 			}
+		//CRUD operations for Recipe
+		private static void UpdateRecipe()
+		{
+			view.DisplayMessage("Enter the RecipeID to update: ");
+			int recipeID = view.GetIntInput();
+			view.DisplayMessage("Enter the new Recipe Name: ");
+			string recipeName = view.GetInput();
+			view.DisplayMessage("Enter the new Method: ");
+			string method = view.GetInput();
+			view.DisplayMessage("Enter the new Category:");
+			string categoryName = view.GetInput();
+			view.DisplayMessage("Enter the New Region");
+			string regionName = view.GetInput();
+			int regionID = storageManager.GetRegionIDByName(regionName);
+			int categoryID = storageManager.GetCategoryIDByName(categoryName);
+			int rowsAffected = storageManager.UpdateRecipe(recipeID, recipeName, method, categoryID, regionID);
+			view.DisplayMessage($"rows Affected: {rowsAffected}");
+		}
+		private static void InsertRecipe()
+		{
+			view.DisplayMessage("----Insert Recipe----\n");
+			view.DisplayMessage("Enter your username:");
+			string username = view.GetInput();
+			int userID = storageManager.GetUserIDByUsername(username);
+			view.DisplayMessage("Enter the RecipeID to update: ");
+			int recipeID = view.GetIntInput();
+			view.DisplayMessage("Enter the new Recipe Name: ");
+			string recipeName = view.GetInput();
+			view.DisplayMessage("Enter the new Method: ");
+			string method = view.GetInput();
+			view.DisplayMessage("Enter the new Category:");
+			string categoryName = view.GetInput();
+			view.DisplayMessage("Enter the New Region");
+			string regionName = view.GetInput();
+			int regionID = storageManager.GetRegionIDByName(regionName);
+			int categoryID = storageManager.GetCategoryIDByName(categoryName);
+			Recipe recipe1 = new Recipe(recipeID, recipeName, method, categoryID, userID, regionID);
+			int generatedID = storageManager.InsertRecipe(recipe1);
+			view.DisplayMessage($"New recipe inserted with id: {generatedID}");
+		}
+		private static void DeleteRecipe()
+		{
+			view.DisplayMessage("Enter the Recipe Name to delete: ");
+			string recipeName = view.GetInput();
+			int rowsAffected = storageManager.DeleteRecipe(recipeName);
+			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+		}
 		private static void Register()
 		{
 			// Registration logic here
