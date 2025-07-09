@@ -398,6 +398,7 @@ namespace RecipeApp.Repositories
 		{
 			SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM tblUser WHERE UserName = @UserName");
 			cmd.Parameters.AddWithValue("@UserName", UserName);
+			conn.Open();
 			int count = (int)cmd.ExecuteScalar();
 			if (count > 0) 
 			{
@@ -414,6 +415,7 @@ namespace RecipeApp.Repositories
 			SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM tblUser WHERE UserName = @UserName AND Password = @Password", conn);
 			cmd.Parameters.AddWithValue("@UserName", UserName);
 			cmd.Parameters.AddWithValue("@Password", Password);
+			conn.Open();
 			int count = (int)cmd.ExecuteScalar();
 			// If count is greater than 0, the user exists with the provided password
 			if (count > 0)
