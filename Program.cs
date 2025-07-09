@@ -299,7 +299,8 @@ namespace RecipeApp
 		private static void Register()
 		{
 			// Registration logic here
-			view.DisplayMessage("Registration Page");
+			Console.Clear();
+			view.DisplayMessage("----Registration Page----\n");
 			view.DisplayMessage("Enter your username: ");
 			string username = view.GetInput();
 			view.DisplayMessage("Enter your password: ");
@@ -336,19 +337,19 @@ namespace RecipeApp
 		private static void Login()
 		{
 			// Login logic here
-			view.DisplayMessage("Login Page");
+			Console.Clear();
+			view.DisplayMessage("----Login Page----\n");
 			view.DisplayMessage("Enter your username: ");
 			string username = view.GetInput();
-			view.DisplayMessage("Enter your password: ");
-			string password = view.GetInput();
 			// Check if the user exists and the password matches
 			if (storageManager.CheckIfUserExists(username))
 			{
+				view.DisplayMessage("Enter your password: ");
+				string password = view.GetInput();
 				if (storageManager.CheckPassword(username, password))
 				{
 					view.DisplayMessage("Login successful!");
-					if (storageManager.)
-					MainMenu();
+					
 				}
 				else
 				{
