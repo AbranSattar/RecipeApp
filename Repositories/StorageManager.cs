@@ -425,7 +425,7 @@ namespace RecipeApp.Repositories
 		}
 		public bool CheckIfUserExists(string UserName)
 		{
-			SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM tblUser WHERE UserName = @UserName");
+			SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM tblUser WHERE UserName = @UserName", conn);
 			cmd.Parameters.AddWithValue("@UserName", UserName);
 			int count = (int)cmd.ExecuteScalar();
 			if (count > 0) 
