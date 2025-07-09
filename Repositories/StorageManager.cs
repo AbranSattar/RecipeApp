@@ -262,9 +262,13 @@ namespace RecipeApp.Repositories
 		}
 		public int InsertUser(User userTemp)
 		{
-			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblUser (Username, Password, RoleID) VALUES (@username, @password, @roleID); SELECT SCOPE_IDENTITY();", conn))
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblUser UserID, FirstName, LastName, Email, Username, Password, RoleID) VALUES (@username, @password, @roleID); SELECT SCOPE_IDENTITY();", conn))
 			{
+				
 				cmd.Parameters.AddWithValue("@username", userTemp.UserName);
+				cmd.Parameters.AddWithValue("@firstName", userTemp.FirstName);
+				cmd.Parameters.AddWithValue("@lastName", userTemp.LastName);
+				cmd.Parameters.AddWithValue("@email", userTemp.Email);
 				cmd.Parameters.AddWithValue("@password", userTemp.Password);
 				cmd.Parameters.AddWithValue("@roleID", userTemp.roleID);
 				return Convert.ToInt32(cmd.ExecuteScalar());
@@ -272,7 +276,7 @@ namespace RecipeApp.Repositories
 		}
 		public int DeleteUser(string username)
 		{
-			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblUser WHERE Username = @username;", conn))
+			using (SqlCommand cmd = new SqlCommand($"DELETE UserID FROM tblUser WHERE Username = @username;", conn))
 			{
 				cmd.Parameters.AddWithValue("@username", username);
 				return cmd.ExecuteNonQuery();
@@ -390,19 +394,12 @@ namespace RecipeApp.Repositories
 			}
 			return user;
 		}
-		public static void CheckIfUserExists(string UserName)
+		public bool CheckIfUserExists(string UserName)
 		{
-			SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM tblUser WHERE UserName = @UserName", conn);
+			SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM tblUser WHERE UserName = @UserName");
 			cmd.Parameters.AddWithValue("@UserName", UserName);
 			int count = (int)cmd.ExecuteScalar();
-			if (count > 0)
-			{
-				Console.WriteLine("User already exists.");
-			}
-			else
-			{
-				Console.WriteLine("User does not exist.");
-			}
+			return count > 0;
 
 		}
 		// Close the connection

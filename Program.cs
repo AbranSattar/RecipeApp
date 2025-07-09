@@ -308,18 +308,61 @@ namespace RecipeApp
 			if (storageManager.CheckIfUserExists(username))
 			{
 				view.DisplayMessage("Username already exists. Please choose a different username.");
-				return;
 			}
 			else
 			{
-				view.Disp
+				// Insert user into the database
+				int userID = 0; // Assuming userID is auto-generated
+				view.DisplayMessage("Enter your email: ");
+				string email = view.GetInput();
+				view.DisplayMessage("Enter your first name: ");
+				string firstName = view.GetInput();
+				view.DisplayMessage("Enter your last name: ");
+				string lastName = view.GetInput();
+				view.DisplayMessage("Enter your role (e.g., Admin, User): ");
+				string roleName = view.GetInput();
+				int roleID = storageManager.GetRoleIDByName(roleName);
+				if (roleID == -1)
+				{
+					view.DisplayMessage("Role not found. Please enter a valid role.");
+					return;
+				}
+				User newUser = new User(userID, firstName, lastName, username, email, roleID, password);
+				int generatedID = storageManager.InsertUser(newUser);
+				view.DisplayMessage($"Registration successful! New user inserted with id: {generatedID}");
 			}
+			
 		}
 		private static void Login()
+		{
+			// Login logic here
+			view.DisplayMessage("Login Page");
+			view.DisplayMessage("Enter your username: ");
+			string username = view.GetInput();
+			view.DisplayMessage("Enter your password: ");
+			string password = view.GetInput();
+			// Check if the user exists and the password matches
+			if (storageManager.CheckIfUserExists(username))
 			{
-				// Login logic here
-				view.DisplayMessage("Login not implemented yet.");
+				if (storageManager.CheckPassword(username, password))
+				{
+					view.DisplayMessage("Login successful!");
+					if (storageManager.)
+					MainMenu();
+				}
+				else
+				{
+					view.DisplayMessage("Invalid password. Please try again.");
+				}
 			}
+			else
+			{
+				view.DisplayMessage("Username not found. Please register first.");
+				Console.Clear();
+				view.DisplayMenu();
+			}
+		}
+			
 		private static void Exit()
 		{
 			view.DisplayMessage("Exiting the application. Goodbye!");
