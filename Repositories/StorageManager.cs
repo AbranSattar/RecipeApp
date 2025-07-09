@@ -372,12 +372,11 @@ namespace RecipeApp.Repositories
 			}
 		}
 		// CRUD operations for Ingredients
-		public int UpdateIngredient(int ingredientID, string ingredientName, int recipeID)
+		public int UpdateIngredient(int ingredientID, string ingredientName)
 		{
 			using (SqlCommand cmd = new SqlCommand($"UPDATE tblIngredient SET IngredientName = @ingredientName, RecipeID = @recipeID WHERE IngredientID = @ingredientID", conn))
 			{
 				cmd.Parameters.AddWithValue("@ingredientName", ingredientName);
-				cmd.Parameters.AddWithValue("@recipeID", recipeID);
 				cmd.Parameters.AddWithValue("@ingredientID", ingredientID);
 				return cmd.ExecuteNonQuery();
 			}

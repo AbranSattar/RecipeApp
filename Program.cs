@@ -344,6 +344,15 @@ namespace RecipeApp
 			int rowsAffected = storageManager.DeleteRecipe(recipeName);
 			view.DisplayMessage($"Rows Affected: {rowsAffected}");
 		}
+		private static void UpdateIngredient()
+		{
+			view.DisplayMessage("Enter the IngredientID to update: ");
+			int ingredientID = view.GetIntInput();
+			view.DisplayMessage("Enter the new Ingredient Name: ");
+			string ingredientName = view.GetInput();
+			int rowsAffected = storageManager.UpdateIngredient(ingredientID, ingredientName);
+			view.DisplayMessage($"rows Affected: {rowsAffected}");
+		}
 		private static void Register()
 		{
 			// Registration logic here
