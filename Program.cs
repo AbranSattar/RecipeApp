@@ -16,7 +16,7 @@ namespace RecipeApp
 		private static ConsoleView view;
 		static void Main(string[] args)
 		{
-			string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Abran Sattar\\OneDrive - Avondale College\\TPI 11\\12 TPI SQL DATABASE\\RecipeApp\\DBFile\\RecipeDatabase.mdf\";Integrated Security=True;Connect Timeout=30;Encrypt=True";
+			string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RECIPE_DATABASE;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 			storageManager = new StorageManager(connectionString);
 			view = new ConsoleView();
 			while (true)
