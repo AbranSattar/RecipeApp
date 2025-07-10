@@ -426,14 +426,19 @@ namespace RecipeApp
 				}
 				else
 				{
-					view.DisplayMessage("Invalid password. Please try again.");
+					Console.Clear() ;
+					view.DisplayMessage("Invalid password. Please try again.\n");
+					Login();
 				}
 			}
 			else
 			{
-				view.DisplayMessage("Username not found. Please register first.");
+				Console.Clear() ;
+				view.DisplayMessage("Username not found. Please register first, Press any key to continue.");
+				Console.ReadKey();
 				Console.Clear();
-				view.DisplayMenu();
+				view.DisplayMenu(); 
+
 			}
 		}
 			
