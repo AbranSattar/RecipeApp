@@ -102,11 +102,11 @@
 ('Malaysia'),
 ('Maldives');
 
-INSERT INTO tblRole (RoleID, Role)
+INSERT INTO tblRole (Role)
 VALUES 
-(1, 'Admin'),
-(2, 'Chef'),
-(3, 'User')
+('Admin'),
+('Chef'),
+('User')
 ;
 INSERT INTO tblRegion (CountryID, Area)
 VALUES 
@@ -389,7 +389,18 @@ INSERT INTO tblUser (FirstName, LastName, Email, UserName, RoleID, Password) VAL
 ('Christina', 'Martinez', 'christina.martinez@example.com', 'christinam', 3, 'T7vWp9zJ'),
 ('Alex', 'Guarnaschelli', 'alex.guarnaschelli@example.com', 'alexg', 1, 'C9qLt3wX'),
 ('Stephanie', 'Izard', 'stephanie.izard@example.com', 'stephaniei', 2, 'K5sRp7mV'),
-('Nancy', 'Silverton', 'nancy.silverton@example.com', 'nancys', 3, 'D8zWj4qL');
+('Nancy', 'Silverton', 'nancy.silverton@example.com', 'nancys', 3, 'D8zWj4qL'),
+('Matilda', 'Stone', 'matilda.stone@example.com', 'matildas', 1, 'H4vTs9wQ'),
+('Bradley', 'Cooper', 'bradley.cooper@example.com', 'bradleyc', 2, 'P7kWs4nM'),
+('Serena', 'Morris', 'serena.morris@example.com', 'serenam', 3, 'X2jBr8yL'),
+('Leonard', 'Foster', 'leonard.foster@example.com', 'leonardf', 1, 'D9zVp6kR'),
+('Isabella', 'Reyes', 'isabella.reyes@example.com', 'isabellar', 2, 'M3cRj7vX'),
+('Trevor', 'Nguyen', 'trevor.nguyen@example.com', 'trevorn', 3, 'K6sQw5tJ'),
+('Felix', 'Martinez', 'felix.martinez@example.com', 'felixm', 1, 'Z5nGp2xV'),
+('Camila', 'Bennett', 'camila.bennett@example.com', 'camilab', 2, 'L8yRt4wQ'),
+('Julian', 'Lee', 'julian.lee@example.com', 'julianl', 3, 'R2hSv9mP'),
+('Nina', 'Patel', 'nina.patel@example.com', 'ninap', 1, 'G7kWq3zD'),
+('Victor', 'Lopez', 'victor.lopez@example.com', 'victorl', 2, 'E4pXr6tN');
 
 INSERT INTO tblCategory (Category) VALUES
 -- Recipe Categories
@@ -424,7 +435,7 @@ INSERT INTO tblCategory (Category) VALUES
 ('Mediterranean'),
 ('Comfort Food');
 
-INSERT INTO tblRecipe (Title, Method, CategoryID, ChefID, RegionID)
+INSERT INTO tblRecipe (Title, Method, CategoryID, UserID, RegionID)
 VALUES
 ('Spaghetti Carbonara', 'Cook pasta, mix with egg, cheese, and pancetta.', 15, 1, 130),
 ('Classic Burger', 'Grill the beef patty and assemble the burger.', 17, 2, 54),
