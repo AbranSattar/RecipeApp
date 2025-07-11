@@ -421,14 +421,104 @@ namespace RecipeApp
 				string password = view.GetInput();
 				if (storageManager.CheckPassword(username, password))
 				{
-					view.DisplayMessage("Login successful!");
-					
+					Console.Clear();
+					view.DisplayMessage("Login successful!\n");
+					if (storageManager.CheckUserRole(username) == "Admin")
+					{
+						string adminMenu = view.DisplayAdminMenu();
+						switch (adminMenu) 
+						{
+							case "1":
+							CountryMenu();
+							break;
+							case "2":
+								RoleMenu();
+								break;
+							case "3":
+								RegionMenu();
+								break;
+							case "4":
+								CityMenu();
+								break;
+							case "5":
+								SuburbMenu();
+								break;
+							case "6":
+								StoreMenu();
+								break;
+							case "7":
+								UserMenu();
+								break;
+							case "8":
+								CategoryMenu();
+								break;
+							case "9":
+								RecipeMenu();
+								break;
+							case "10":
+								IngredientMenu();
+								break;
+							case "11":
+								ReportMenu();
+								break;
+							case "0":
+								Exit();
+								break;
+							default:
+								Console.Clear();
+								view.DisplayMessage("Invalid option. Please try again.");
+								break;
+						}
+					}
+					else if(storageManager.CheckUserRole(username) == "Chef")
+					{
+						string chefMenu = view.DisplayChefMenu();
+						switch (chefMenu)
+						{
+							case "1":
+								RecipeMenu();
+								break;
+							case "2":
+								IngredientMenu();
+								break;
+							case "3":
+								ReportMenu();
+								break;
+							case "4":
+								Exit();
+								break;
+							default:
+								Console.Clear();
+								view.DisplayMessage("Invalid option. Please try again.");
+								break;
+						}
+					}
+					else
+					{
+						string userMenu = view.DisplayUserMenu();
+						switch (userMenu)
+						{
+							case "1":
+								ReportMenu();
+								break;
+							case "2":
+								Exit();
+								break;
+							default:
+								Console.Clear();
+								view.DisplayMessage("Invalid option. Please try again.");
+								break;
+						}
+					}
+
 				}
 				else
 				{
-					Console.Clear() ;
-					view.DisplayMessage("Invalid password. Please try again.\n");
-					Login();
+					Console.Clear();
+					view.DisplayMessage("Invalid password. Please try again, press any key to continue.");
+					Console.ReadKey();
+					Console.Clear();
+
 				}
 			}
 			else
@@ -437,7 +527,6 @@ namespace RecipeApp
 				view.DisplayMessage("Username not found. Please register first, Press any key to continue.");
 				Console.ReadKey();
 				Console.Clear();
-				view.DisplayMenu(); 
 
 			}
 		}
@@ -447,6 +536,207 @@ namespace RecipeApp
 			view.DisplayMessage("Exiting the application. Goodbye!");
 			Environment.Exit(0);
 		}
+		private static void CountryMenu()
+		{
+			string countryMenu = view.EditCountryMenu();
+			switch (countryMenu)
+			{
+				case "1":
+					InsertCountry();
+					break;
+				case "2":
+					UpdateCountry();
+					break;
+				case "3":
+					DeleteCountry();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+		private static void RoleMenu()
+		{
+			string roleMenu = view.EditRoleMenu();
+			switch (roleMenu)
+			{
+				case "1":
+					InsertRole();
+					break;
+				case "2":
+					UpdateRole();
+					break;
+				case "3":
+					DeleteRole();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+		private static void RegionMenu()
+		{
+			string regionMenu = view.EditRegionMenu();
+			switch (regionMenu)
+			{
+				case "1":
+					InsertRegion();
+					break;
+				case "2":
+					UpdateRegion();
+					break;
+				case "3":
+					DeleteRegion();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+		private static void CityMenu()
+		{
+			string cityMenu = view.EditCityMenu();
+			switch (cityMenu)
+			{
+				case "1":
+					InsertCity();
+					break;
+				case "2":
+					UpdateCity();
+					break;
+				case "3":
+					DeleteCity();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+		private static void SuburbMenu()
+		{
+			string suburbMenu = view.EditSuburbMenu();
+			switch (suburbMenu)
+			{
+				case "1":
+					InsertSuburb();
+					break;
+				case "2":
+					UpdateSuburb();
+					break;
+				case "3":
+					DeleteSuburb();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+		private static void StoreMenu()
+		{
+			string storeMenu = view.EditStoreMenu();
+			switch (storeMenu)
+			{
+				case "1":
+					InsertStore();
+					break;
+				case "2":
+					UpdateStore();
+					break;
+				case "3":
+					DeleteStore();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+		private static void UserMenu()
+		{
+			string userMenu = view.EditUserMenu();
+			switch (userMenu)
+			{
+				case "1":
+					InsertUser();
+					break;
+				case "2":
+					UpdateUser();
+					break;
+				case "3":
+					DeleteUser();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+		private static void CategoryMenu()
+		{
+			string categoryMenu = view.EditCategoryMenu();
+			switch (categoryMenu)
+			{
+				case "1":
+					InsertCategory();
+					break;
+				case "2":
+					UpdateCategory();
+					break;
+				case "3":
+					DeleteCategory();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+		private static void RecipeMenu()
+		{
+			string recipeMenu = view.EditRecipeMenu();
+			switch (recipeMenu)
+			{
+				case "1":
+					InsertRecipe();
+					break;
+				case "2":
+					UpdateRecipe();
+					break;
+				case "3":
+					DeleteRecipe();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+		private static void IngredientMenu()
+		{
+			string ingredientMenu = view.EditIngredientMenu();
+			switch (ingredientMenu)
+			{
+				case "1":
+					InsertIngredient();
+					break;
+				case "2":
+					UpdateIngredient();
+					break;
+				case "3":
+					DeleteIngredient();
+					break;
+				default:
+					Console.Clear();
+					view.DisplayMessage("Invalid option. Please try again.");
+					break;
+			}
+		}
+
 	} 
 }
 
