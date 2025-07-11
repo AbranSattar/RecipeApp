@@ -70,7 +70,6 @@ namespace RecipeApp.Repositories
                 return Convert.ToInt32(cmd.ExecuteScalar);
             }
         }
-
         public int DeleteCountry(string countryName)
         {
             using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblCountry WHERE Country = @countryName;", conn))
@@ -79,6 +78,15 @@ namespace RecipeApp.Repositories
                 return cmd.ExecuteNonQuery();
             }
         }
+		public int GetCountryID(string Country)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT CountryID FROM tblCountry WHERE Country = @Country", conn))
+			{
+				cmd.Parameters.AddWithValue("@Country", Country);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
+			}
+		}
 		//Role CRUD Operations
 		public int UpdateRole(int roleID, string role)
 		{
@@ -150,15 +158,6 @@ namespace RecipeApp.Repositories
 			{
 				cmd.Parameters.AddWithValue("@regionName", regionTemp.Area);
 				return Convert.ToInt32(cmd.ExecuteScalar());
-			}
-		}
-		public int GetCountryIDByName(string country)
-		{
-			using (SqlCommand cmd = new SqlCommand($"SELECT CountryID FROM tblCountry WHERE Country = @countryName", conn))
-			{
-				cmd.Parameters.AddWithValue("@countryName", country);
-				object result = cmd.ExecuteScalar();
-				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
 			}
 		}
 		public int DeleteRegion(string regionName)

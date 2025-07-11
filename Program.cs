@@ -26,7 +26,13 @@ namespace RecipeApp
 				switch (Menu)
 				{
 					case "1":
-						Register();
+						string regRole = Register(); // returns "admin", "chef", "user", or null
+						if (regRole == "Admin")
+							AdminMenu();
+						else if (regRole == "Chef")
+							ChefMenu();
+						else if (regRole == "User")
+							UserMenu();
 						break;
 					case "2":
 						string role = Login(); // returns "admin", "chef", "user", or null
@@ -52,14 +58,19 @@ namespace RecipeApp
 		//Country CRUD operations
 		private static void UpdateCountry()
 		{
-
-			view.DisplayMessage("Enter the CountryID to update: ");
-			int countryID = view.GetIntInput();
-			view.DisplayMessage("Enter the new brand name: ");
-			string countryName = view.GetInput();
-			int rowsAffected = storageManager.UpdateCountry(countryID, countryName);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
-
+			while (Console.ReadKey(true).Key != ConsoleKey.Escape)
+			{
+				view.DisplayMessage("----Update Country----\n");
+				view.DisplayMessage("press ESC at anytime to exit");
+				view.DisplayMessage("Enter the Country to update: ");
+				string countryName = view.GetInput();
+				int countryID = storageManager.GetCountryID(countryName);
+				view.DisplayMessage("Enter the new brand name: ");
+				string updatedCountry = view.GetInput();
+				int rowsAffected = storageManager.UpdateCountry(countryID, updatedCountry);
+				view.DisplayMessage($"rows Affected: {rowsAffected}");
+			}
+			return;
 		}
 		private static void InsertCountry()
 		{
@@ -100,11 +111,6 @@ namespace RecipeApp
 			Role role1 = new Role(roleID, role);
 			int generatedID = storageManager.InsertRole(role1);
 			view.DisplayMessage($"New role inserted with id: {generatedID}");
-
-		}
-		private static void GetRoleByID()
-		{
-
 		}
 		private static void DeleteRole()
 		{
@@ -130,7 +136,7 @@ namespace RecipeApp
 			string area = view.GetInput();
 			view.DisplayMessage("Enter Country of Area: ");
 			string country = view.GetInput();
-			int countryID = storageManager.GetCountryIDByName(country);
+			int countryID = storageManager.GetCountryID(country);
 			int regionID = 0;
 			Region region1 = new Region(regionID, countryID, area);
 			int generatedID = storageManager.InsertRegion(region1);
@@ -376,7 +382,7 @@ namespace RecipeApp
 			int rowsAffected = storageManager.DeleteIngredient(ingredientName);
 			view.DisplayMessage($"Rows Affected: {rowsAffected}");
 		}
-		private static void Register()
+		private static string Register()
 		{
 			// Registration logic here
 			Console.Clear();
@@ -389,6 +395,7 @@ namespace RecipeApp
 			if (storageManager.CheckIfUserExists(username))
 			{
 				view.DisplayMessage("Username already exists. Please choose a different username.");
+				return null;
 			}
 			else
 			{
@@ -406,11 +413,12 @@ namespace RecipeApp
 				if (roleID == -1)
 				{
 					view.DisplayMessage("Role not found. Please enter a valid role.");
-					return;
+					return null;
 				}
 				User newUser = new User(userID, firstName, lastName, username, email, roleID, password);
 				int generatedID = storageManager.InsertUser(newUser);
 				view.DisplayMessage($"Registration successful! New user inserted with id: {generatedID}");
+				return roleName;
 			}
 
 		}
@@ -505,6 +513,7 @@ namespace RecipeApp
 						ReportMenu();
 						break;
 					case "0":
+						Console.Clear();
 						return;
 					default:
 						Console.Clear();
@@ -534,6 +543,7 @@ namespace RecipeApp
 						ReportMenu();
 						break;
 					case "4":
+						Console.Clear();
 						return;
 					default:
 						Console.Clear();
@@ -554,6 +564,7 @@ namespace RecipeApp
 						ReportMenu();
 						break;
 					case "2":
+						Console.Clear();
 						return;
 					default:
 						Console.Clear();
