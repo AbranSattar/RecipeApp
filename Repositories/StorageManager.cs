@@ -454,6 +454,20 @@ namespace RecipeApp.Repositories
 				return false;
 			}
 		}
+		public string CheckUserRole(string UserName) 
+		{ 
+		SqlCommand cmd = new SqlCommand("SELECT Role FROM tblUser WHERE tblUser.RoleID = tblRole.RoleID AND WHERE UserName = @UserName", conn);
+			cmd.Parameters.AddWithValue("@UserName", UserName);
+			object result = cmd.ExecuteScalar();
+			if (result != null)
+			{
+				return result.ToString(); // Return the role as a string
+			}
+			else
+			{
+				return null; // No role found for the user
+			}
+		}
 		// Close the connection
 		public void CloseConnection()
         {
