@@ -115,9 +115,27 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
-        // CRUD operations for Region
+		public List<Role> GetAllRoles()
+		{
+			List<Role> roles = new List<Role>();
+			string allRoles = "Select * FROM tblRole";
+			using (SqlCommand cmd = new SqlCommand(allRoles, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int roleID = Convert.ToInt32(reader["RoleID"]);
+						string roleName = reader["Role"].ToString();
+						roles.Add(new Role(roleID, roleName));
+					}
+				}
+			}
+			return roles;
+		}
+		// CRUD operations for Region
 
-        public int UpdateRegion(int regionID, string regionName)
+		public int UpdateRegion(int regionID, string regionName)
 		{
 			using (SqlCommand cmd = new SqlCommand($"UPDATE tblRegion SET Region = @regionName WHERE RegionID = @regionID", conn))
 			{
@@ -150,6 +168,25 @@ namespace RecipeApp.Repositories
 				cmd.Parameters.AddWithValue("@regionName", regionName);
 				return cmd.ExecuteNonQuery();
 			}
+		}
+		public List<Region> GetAllRegions()
+		{
+			List<Region> regions = new List<Region>();
+			string allRegions = "Select * FROM tblRegion";
+			using (SqlCommand cmd = new SqlCommand(allRegions, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int regionID = Convert.ToInt32(reader["RegionID"]);
+						string regionName = reader["Region"].ToString();
+						int countryID = Convert.ToInt32(reader["CountryID"]);
+						regions.Add(new Region(regionID, countryID, regionName));
+					}
+				}
+			}
+			return regions;
 		}
 		// CRUD operations for City
 		public int UpdateCity(int cityID, string cityName)
@@ -186,6 +223,24 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
+		public List<City> GetAllCities()
+		{
+			List<City> cities = new List<City>();
+			string allCities = "Select * FROM tblCity";
+			using (SqlCommand cmd = new SqlCommand(allCities, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int cityID = Convert.ToInt32(reader["CityID"]);
+						string cityName = reader["City"].ToString();
+						cities.Add(new City(cityID, cityName));
+					}
+				}
+			}
+			return cities;
+		}
 		// CRUD operations for Suburb
 		public int UpdateSuburb(int suburbID, string suburbName)
 		{
@@ -221,7 +276,26 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
-
+		public List<Suburb> GetAllSuburbs()
+		{
+			List<Suburb> suburbs = new List<Suburb>();
+			string allSuburbs = "Select * FROM tblSuburb";
+			using (SqlCommand cmd = new SqlCommand(allSuburbs, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int suburbID = Convert.ToInt32(reader["SuburbID"]);
+						int cityID = Convert.ToInt32(reader["CityID"]);
+						string suburbName = reader["Suburb"].ToString();
+						int zipcode = Convert.ToInt32(reader["Zipcode"]);
+						suburbs.Add(new Suburb(suburbID, cityID, suburbName, zipcode));
+					}
+				}
+			}
+			return suburbs;
+		}
 
 		// CRUD operations for Store
 		public int UpdateStore(int storeID, string storeName)
@@ -248,6 +322,25 @@ namespace RecipeApp.Repositories
 				cmd.Parameters.AddWithValue("@storeName", storeName);
 				return cmd.ExecuteNonQuery();
 			}
+		}
+		public List<Store> GetAllStores()
+		{
+			List<Store> stores = new List<Store>();
+			string allStores = "Select * FROM tblStore";
+			using (SqlCommand cmd = new SqlCommand(allStores, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int storeID = Convert.ToInt32(reader["StoreID"]);
+						int suburbID = Convert.ToInt32(reader["SuburbID"]);
+						string storeName = reader["Store"].ToString();
+						stores.Add(new Store(storeID, suburbID, storeName));
+					}
+				}
+			}
+			return stores;
 		}
 		//CRUD operations for User
 		public int UpdateUser(int userID, string username, string password)
@@ -282,6 +375,29 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
+		public List<User> GetAllUsers()
+		{
+			List<User> users = new List<User>();
+			string allUsers = "Select * FROM tblUser";
+			using (SqlCommand cmd = new SqlCommand(allUsers, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int userID = Convert.ToInt32(reader["UserID"]);
+						string firstName = reader["FirstName"].ToString();
+						string lastName = reader["LastName"].ToString();
+						string username = reader["Username"].ToString();
+						string email = reader["Email"].ToString();
+						int roleID = Convert.ToInt32(reader["RoleID"]);
+						string password = reader["Password"].ToString();
+						users.Add(new User(userID, firstName, lastName, username, email, roleID, password));
+					}
+				}
+			}
+			return users;
+		}
 		// CRUD operations for category
 		public int UpdateCategory(int categoryID, string categoryName)
 		{
@@ -307,6 +423,24 @@ namespace RecipeApp.Repositories
 				cmd.Parameters.AddWithValue("@categoryName", categoryName);
 				return cmd.ExecuteNonQuery();
 			}
+		}
+		public List<Category> GetAllCategories()
+		{
+			List<Category> categories = new List<Category>();
+			string allCategories = "Select * FROM tblCategory";
+			using (SqlCommand cmd = new SqlCommand(allCategories, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int categoryID = Convert.ToInt32(reader["CategoryID"]);
+						string categoryName = reader["Category"].ToString();
+						categories.Add(new Category(categoryID, categoryName));
+					}
+				}
+			}
+			return categories;
 		}
 		//CRUD for Recipe
 		public int UpdateRecipe(int recipeID, string Title, string Method, int CategoryID, int RegionID)
@@ -340,6 +474,28 @@ namespace RecipeApp.Repositories
 				cmd.Parameters.AddWithValue("@title", title);
 				return cmd.ExecuteNonQuery();
 			}
+		}
+		public List<Recipe> GetAllRecipes()
+		{
+			List<Recipe> recipes = new List<Recipe>();
+			string allRecipes = "Select * FROM tblRecipe";
+			using (SqlCommand cmd = new SqlCommand(allRecipes, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int recipeID = Convert.ToInt32(reader["RecipeID"]);
+						string title = reader["Title"].ToString();
+						string method = reader["Method"].ToString();
+						int categoryID = Convert.ToInt32(reader["CategoryID"]);
+						int userID = Convert.ToInt32(reader["UserID"]);
+						int regionID = Convert.ToInt32(reader["RegionID"]);
+						recipes.Add(new Recipe(recipeID, title, method, categoryID, userID, regionID));
+					}
+				}
+			}
+			return recipes;
 		}
 		// Get userID by username
 		public int GetUserIDByUsername(string username)
@@ -398,8 +554,27 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
+		public List<Ingredient> GetAllIngredients()
+		{
+			List<Ingredient> ingredients = new List<Ingredient>();
+			string allIngredients = "Select * FROM tblIngredient";
+			using (SqlCommand cmd = new SqlCommand(allIngredients, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int ingredientID = Convert.ToInt32(reader["IngredientID"]);
+						string ingredientName = reader["IngredientName"].ToString();
+						ingredients.Add(new Ingredient(ingredientID, ingredientName));
+					}
+				}
+			}
+			return ingredients;
+		}
 
-        public List<User> SimpleQry1()
+
+		public List<User> SimpleQry1()
         {
 			List<User> user = new List<User>();
 			string allUsers = "Select * FROM tblUser";

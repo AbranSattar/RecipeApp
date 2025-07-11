@@ -488,11 +488,8 @@ namespace RecipeApp
 						switch (chefMenu)
 						{
 							case "1":
-								while (Console.ReadKey().Key != ConsoleKey.Escape)
-								{
-									Console.Clear();
-									RecipeMenu();
-								}
+								Console.Clear();
+								RecipeMenu();
 								break;
 							case "2":
 								IngredientMenu();
@@ -565,6 +562,10 @@ namespace RecipeApp
 					break;
 				case "3":
 					DeleteCountry();
+					break;
+				case "4":
+					Console.Clear();
+					view.DisplayCountries(storageManager.GetAllCountries());
 					break;
 				default:
 					Console.Clear();
@@ -726,12 +727,16 @@ namespace RecipeApp
 				case "3":
 					DeleteRecipe();
 					break;
+				case "4":
+					view.DisplayRecipes(storageManager.GetAllRecipes());
+					break;
+				case "5":
+					return;
 				default:
 					Console.Clear();
 					view.DisplayMessage("Invalid option. Please try again.");
 					break;
 			}
-			view.DisplayMessage("Press Esc to go back");
 		}
 		private static void IngredientMenu()
 		{
