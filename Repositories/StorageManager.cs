@@ -574,7 +574,7 @@ namespace RecipeApp.Repositories
 		}
 
 
-		public List<User> SimpleQry1()
+		public List<User> UsersReport()
         {
 			List<User> user = new List<User>();
 			string allUsers = "Select * FROM tblUser";
@@ -597,6 +597,84 @@ namespace RecipeApp.Repositories
 				}
 			}
 			return user;
+		}
+		public List<City> CityReport()
+		{
+			List<City> cities = new List<City>();
+			string allCities = "Select * FROM tblCity";
+			using (SqlCommand cmd = new SqlCommand(allCities, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int cityID = Convert.ToInt32(reader["CityID"]);
+						string cityName = reader["City"].ToString();
+						cities.Add(new City(cityID, cityName));
+					}
+				}
+			}
+			return cities;
+		}
+		public List<Country> CountryReport()
+		{
+			List<Country> countries = new List<Country>();
+			string allCountries = "Select * FROM tblCountry";
+			using (SqlCommand cmd = new SqlCommand(allCountries, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int countryID = Convert.ToInt32(reader["CountryID"]);
+						string countryName = reader["Country"].ToString();
+						countries.Add(new Country(countryID, countryName));
+					}
+				}
+			}
+			return countries;
+		}
+		public List<Recipe> RecipeReport()
+		{
+			List<Recipe> recipes = new List<Recipe>();
+			string allRecipes = "Select Title, Method FROM tblRecipe";
+			using (SqlCommand cmd = new SqlCommand(allRecipes, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int recipeID = Convert.ToInt32(reader["RecipeID"]);
+						string title = reader["Title"].ToString();
+						string method = reader["Method"].ToString();
+						int categoryID = Convert.ToInt32(reader["CategoryID"]);
+						int userID = Convert.ToInt32(reader["UserID"]);
+						int regionID = Convert.ToInt32(reader["RegionID"]);
+						recipes.Add(new Recipe(recipeID, title, method, categoryID, userID, regionID));
+					}
+				}
+			}
+			return recipes;
+		}
+		public List<Suburb> SuburbReport()
+		{
+			List<Suburb> suburbs = new List<Suburb>();
+			string allSuburbs = "SELECT * FROM tblSuburb";
+			using (SqlCommand cmd = new SqlCommand(allSuburbs, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int suburbID = Convert.ToInt32(reader["SuburbID"]);
+						int cityID = Convert.ToInt32(reader["CityID"]);
+						string suburbName = reader["Suburb"].ToString();
+						int zipcode = Convert.ToInt32(reader["Zipcode"]);
+						suburbs.Add(new Suburb(suburbID, cityID, suburbName, zipcode));
+					}
+				}
+			}
+			return suburbs;
 		}
 		public bool CheckIfUserExists(string UserName)
 		{

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using RecipeApp.Models;
 
 namespace RecipeApp.Repositories
@@ -119,7 +120,7 @@ namespace RecipeApp.Repositories
 			Console.WriteLine("2. Update User");
 			Console.WriteLine("3. Delete User");
 			Console.WriteLine("4. View Users");
-			Console.WriteLine("0. Exit");
+			Console.WriteLine("0. Return");
 			return Console.ReadLine();
 		}
 		public string EditCategoryMenu()
@@ -152,7 +153,77 @@ namespace RecipeApp.Repositories
 			Console.WriteLine("0. Exit");
 			return Console.ReadLine();
 		}
-		
+		public string viewReportsMenu()	
+		{
+			Console.WriteLine("==== ALL REPORTS ====\n");
+			Console.WriteLine("1. user report");
+			Console.WriteLine("2. city report");
+			Console.WriteLine("3. country report");
+			Console.WriteLine("4. recipe report");
+			Console.WriteLine("5. suburb report");
+			Console.WriteLine("0. Exit");
+			return Console.ReadLine();
+		}
+		public void UserReport(List<User> users)
+		{
+			Console.WriteLine("User Report:\n");
+			foreach (User user in users)
+			{
+				Console.WriteLine($"ID: {user.userID}, Name: {user.FirstName} {user.LastName}, Username: {user.UserName}, Email: {user.Email}, Role ID: {user.roleID}");
+			}
+			Console.WriteLine("Press any key to return to main menu");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void CityReport(List<City> cities)
+		{
+			Console.WriteLine("City Report:\n");
+			foreach (City city in cities)
+			{
+				Console.WriteLine($"ID: {city.cityID}, City Name: {city.city}");
+			}
+			Console.WriteLine("Press any key to return to main menu");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void CountryReport(List<Country> countries)
+		{
+			Console.WriteLine("Country Report:\n");
+			foreach (Country country in countries)
+			{
+				Console.WriteLine($"ID: {country.countryID}, Country Name: {country.countryName}");
+			}
+			Console.WriteLine("Press any key to return to main menu");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void RecipeReport(List<Recipe> recipes)
+		{
+			Console.WriteLine("Recipe Report:\n");
+			foreach (Recipe recipe in recipes)
+			{
+				Console.WriteLine($"ID: {recipe.RecipeID}, Title: {recipe.Title}");
+			}
+			Console.WriteLine("Press any key to return to main menu");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void SuburbReport(List<Suburb> suburbs)
+		{
+			Console.WriteLine("Suburb Report:\n");
+			foreach (Suburb suburb in suburbs)
+			{
+				Console.WriteLine($"suburb: {suburb.suburb}, city: {suburb.cityID}, zip: {suburb.Zipcode}");
+			}
+			Console.WriteLine("Press any key to return to main menu");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
 		public void DisplayCountries(List<Country> countries)
         {
 
@@ -226,10 +297,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"{user.userID}, {user.UserName}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
-			Console.ReadKey();
-			Console.Clear();
-			return;
+
 		}
 		public void DisplayCategories(List<Category> categories)
 		{
