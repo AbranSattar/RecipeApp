@@ -456,7 +456,7 @@ namespace RecipeApp.Repositories
 		}
 		public string CheckUserRole(string UserName) 
 		{ 
-		SqlCommand cmd = new SqlCommand("SELECT Role FROM tblUser WHERE tblUser.RoleID = tblRole.RoleID AND WHERE UserName = @UserName", conn);
+		SqlCommand cmd = new SqlCommand("SELECT Role FROM tblUser, tblRole WHERE tblUser.RoleID = tblRole.RoleID AND UserName = @UserName", conn);
 			cmd.Parameters.AddWithValue("@UserName", UserName);
 			object result = cmd.ExecuteScalar();
 			if (result != null)

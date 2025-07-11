@@ -3,6 +3,7 @@ using System.Data.SqlTypes;
 using System.Transactions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client.Extensions.Msal;
+using Microsoft.IdentityModel.Tokens;
 using RecipeApp.Models;
 using RecipeApp.Repositories;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -429,36 +430,47 @@ namespace RecipeApp
 						switch (adminMenu) 
 						{
 							case "1":
-							CountryMenu();
+								Console.Clear();
+								CountryMenu();
 							break;
 							case "2":
+								Console.Clear();
 								RoleMenu();
 								break;
 							case "3":
+								Console.Clear();
 								RegionMenu();
 								break;
 							case "4":
+								Console.Clear();
 								CityMenu();
 								break;
 							case "5":
+								Console.Clear();
 								SuburbMenu();
 								break;
 							case "6":
+								Console.Clear();
 								StoreMenu();
 								break;
 							case "7":
+								Console.Clear();
 								UserMenu();
 								break;
 							case "8":
+								Console.Clear();
 								CategoryMenu();
 								break;
 							case "9":
+								Console.Clear();
 								RecipeMenu();
 								break;
 							case "10":
+								Console.Clear();
 								IngredientMenu();
 								break;
 							case "11":
+								Console.Clear();
 								ReportMenu();
 								break;
 							case "0":
@@ -476,7 +488,11 @@ namespace RecipeApp
 						switch (chefMenu)
 						{
 							case "1":
-								RecipeMenu();
+								while (Console.ReadKey().Key != ConsoleKey.Escape)
+								{
+									Console.Clear();
+									RecipeMenu();
+								}
 								break;
 							case "2":
 								IngredientMenu();
@@ -715,6 +731,7 @@ namespace RecipeApp
 					view.DisplayMessage("Invalid option. Please try again.");
 					break;
 			}
+			view.DisplayMessage("Press Esc to go back");
 		}
 		private static void IngredientMenu()
 		{
@@ -735,6 +752,11 @@ namespace RecipeApp
 					view.DisplayMessage("Invalid option. Please try again.");
 					break;
 			}
+		}
+		private static void ReportMenu() 
+		{ 
+			Console.Clear();
+			view.DisplayMessage("working on it"); 
 		}
 
 	} 

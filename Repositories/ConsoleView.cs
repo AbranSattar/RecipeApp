@@ -11,8 +11,8 @@ namespace RecipeApp.Repositories
     {
         public string DisplayMenu()
         {
-            Console.WriteLine("--- RECIPE DATABASE ---");
-            Console.WriteLine("MENU:");
+            Console.WriteLine("--- RECIPE DATABASE ---\n");
+            Console.WriteLine("MENU:\n");
             Console.WriteLine("1. Register");
             Console.WriteLine("2. Login");
 			Console.WriteLine("3. Exit");
@@ -21,7 +21,7 @@ namespace RecipeApp.Repositories
         }
 		public string DisplayAdminMenu()
 		{
-			Console.WriteLine("====ADMIN MENU====");
+			Console.WriteLine("====ADMIN MENU====\n");
 			Console.WriteLine("1. Edit Country");
 			Console.WriteLine("2. Edit Role");
 			Console.WriteLine("3. Edit Region");
@@ -38,7 +38,7 @@ namespace RecipeApp.Repositories
 		}
 		public string DisplayChefMenu()
 		{
-			Console.WriteLine("====CHEF MENU====");
+			Console.WriteLine("====CHEF MENU====\n");
 			Console.WriteLine("1. Edit Recipes");
 			Console.WriteLine("2. Edit Ingredients");
 			Console.WriteLine("3. View Reports");
@@ -47,7 +47,7 @@ namespace RecipeApp.Repositories
 		}
 		public string DisplayUserMenu()
 		{
-			Console.WriteLine("====USER MENU====");
+			Console.WriteLine("====USER MENU====\n");
 			Console.WriteLine("1. view Reports");
 			Console.WriteLine("2. Exit");
 			return Console.ReadLine();
