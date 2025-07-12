@@ -10,6 +10,7 @@ namespace RecipeApp.Repositories
 {
     internal class ConsoleView
     {
+		// Menus
         public string DisplayMenu()
         {
             Console.WriteLine("--- RECIPE DATABASE ---\n");
@@ -164,6 +165,7 @@ namespace RecipeApp.Repositories
 			Console.WriteLine("0. Exit");
 			return Console.ReadLine();
 		}
+		//simple query reports
 		public void UserReport(List<User> users)
 		{
 			Console.WriteLine("User Report:\n");
@@ -171,7 +173,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"ID: {user.userID}, Name: {user.FirstName} {user.LastName}, Username: {user.UserName}, Email: {user.Email}, Role ID: {user.roleID}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -183,7 +185,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"ID: {city.cityID}, City Name: {city.city}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -195,7 +197,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"ID: {country.countryID}, Country Name: {country.countryName}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -207,7 +209,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"ID: {recipe.RecipeID}, Title: {recipe.Title}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -219,11 +221,14 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"suburb: {suburb.suburb}, city: {suburb.cityID}, zip: {suburb.Zipcode}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
 		}
+		//complex query reports
+
+		//display methods for each table
 		public void DisplayCountries(List<Country> countries)
         {
 
@@ -231,7 +236,7 @@ namespace RecipeApp.Repositories
             {
                 Console.WriteLine($"{country.countryID}, {country.countryName}");
             }
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -242,7 +247,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"{role.roleID}, {role.role}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -253,7 +258,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"{region.regionID}, {region.Area},");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -264,7 +269,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"{city.cityID}, {city.city}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -275,7 +280,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"{suburb.suburbID}, {suburb.suburb}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -286,7 +291,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"{store.storeID}, {store.store}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -305,7 +310,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"{category.CategoryID}, {category.CategoryName}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -316,7 +321,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"{recipe.RecipeID}, {recipe.Title}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;
@@ -327,7 +332,7 @@ namespace RecipeApp.Repositories
 			{
 				Console.WriteLine($"{ingredient.IngredientID}, {ingredient.IngredientName}");
 			}
-			Console.WriteLine("Press any key to return to main menu");
+			Console.WriteLine("Press any key to return");
 			Console.ReadKey();
 			Console.Clear();
 			return;

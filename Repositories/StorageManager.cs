@@ -72,7 +72,7 @@ namespace RecipeApp.Repositories
         }
         public int DeleteCountry(string countryName)
         {
-            using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblCountry WHERE Country = @countryName;", conn))
+            using (SqlCommand cmd = new SqlCommand($"DELETE CountryID FROM tblCountry WHERE Country = @countryName;", conn))
             {
                 cmd.Parameters.AddWithValue("@countryName", countryName);
                 return cmd.ExecuteNonQuery();
@@ -85,6 +85,15 @@ namespace RecipeApp.Repositories
 				cmd.Parameters.AddWithValue("@Country", Country);
 				object result = cmd.ExecuteScalar();
 				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
+			}
+		}
+		public string ValidCountry(string countryName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT Country FROM tblCountry WHERE Country = @countryName", conn))
+			{
+				cmd.Parameters.AddWithValue("@countryName", countryName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
 			}
 		}
 		//Role CRUD Operations
@@ -117,10 +126,19 @@ namespace RecipeApp.Repositories
 		}
 		public int DeleteRole(string role)
 		{
-			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblRole WHERE Role = @role;", conn))
+			using (SqlCommand cmd = new SqlCommand($"DELETE RoleID FROM tblRole WHERE Role = @role;", conn))
 			{
 				cmd.Parameters.AddWithValue("@role", role);
 				return cmd.ExecuteNonQuery();
+			}
+		}
+		public string ValidRole(string roleName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT Role FROM tblRole WHERE Role = @roleName", conn))
+			{
+				cmd.Parameters.AddWithValue("@roleName", roleName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
 			}
 		}
 		public List<Role> GetAllRoles()
@@ -145,7 +163,7 @@ namespace RecipeApp.Repositories
 
 		public int UpdateRegion(int regionID, string regionName)
 		{
-			using (SqlCommand cmd = new SqlCommand($"UPDATE tblRegion SET Region = @regionName WHERE RegionID = @regionID", conn))
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblRegion SET Area = @regionName WHERE RegionID = @regionID", conn))
 			{
 				cmd.Parameters.AddWithValue("@regionName", regionName);
 				cmd.Parameters.AddWithValue("@regionID", regionID);
@@ -154,7 +172,7 @@ namespace RecipeApp.Repositories
 		}
 		public int InsertRegion(Region regionTemp)
 		{
-			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblRegion (Region) VALUES (@regionName), (@countryID); SELECT SCOPE_IDENTITY();", conn))
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblRegion (Area, CountryID) VALUES (@regionName), (@countryID); SELECT SCOPE_IDENTITY();", conn))
 			{
 				cmd.Parameters.AddWithValue("@regionName", regionTemp.Area);
 				return Convert.ToInt32(cmd.ExecuteScalar());
@@ -162,10 +180,19 @@ namespace RecipeApp.Repositories
 		}
 		public int DeleteRegion(string regionName)
 		{
-			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblRegion WHERE Region = @regionName;", conn))
+			using (SqlCommand cmd = new SqlCommand($"DELETE RegionID FROM tblRegion WHERE Area = @regionName;", conn))
 			{
 				cmd.Parameters.AddWithValue("@regionName", regionName);
 				return cmd.ExecuteNonQuery();
+			}
+		}
+		public string ValidRegion(string regionName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT Region FROM tblRegion WHERE Region = @regionName", conn))
+			{
+				cmd.Parameters.AddWithValue("@regionName", regionName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
 			}
 		}
 		public List<Region> GetAllRegions()
@@ -179,7 +206,7 @@ namespace RecipeApp.Repositories
 					while (reader.Read())
 					{
 						int regionID = Convert.ToInt32(reader["RegionID"]);
-						string regionName = reader["Region"].ToString();
+						string regionName = reader["Area"].ToString();
 						int countryID = Convert.ToInt32(reader["CountryID"]);
 						regions.Add(new Region(regionID, countryID, regionName));
 					}
@@ -216,10 +243,19 @@ namespace RecipeApp.Repositories
 		}
 		public int DeleteCity(string cityName)
 		{
-			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblCity WHERE City = @cityName;", conn))
+			using (SqlCommand cmd = new SqlCommand($"DELETE CityID FROM tblCity WHERE City = @cityName;", conn))
 			{
 				cmd.Parameters.AddWithValue("@cityName", cityName);
 				return cmd.ExecuteNonQuery();
+			}
+		}
+		public string ValidCity(string cityName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT City FROM tblCity WHERE City = @cityName", conn))
+			{
+				cmd.Parameters.AddWithValue("@cityName", cityName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
 			}
 		}
 		public List<City> GetAllCities()
@@ -269,10 +305,19 @@ namespace RecipeApp.Repositories
 		}
 		public int DeleteSuburb(string suburbName)
 		{
-			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblSuburb WHERE Suburb = @suburbName;", conn))
+			using (SqlCommand cmd = new SqlCommand($"DELETE SuburbID FROM tblSuburb WHERE Suburb = @suburbName;", conn))
 			{
 				cmd.Parameters.AddWithValue("@suburbName", suburbName);
 				return cmd.ExecuteNonQuery();
+			}
+		}
+		public string ValidSuburb(string suburbName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT Suburb FROM tblSuburb WHERE Suburb = @suburbName", conn))
+			{
+				cmd.Parameters.AddWithValue("@suburbName", suburbName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
 			}
 		}
 		public List<Suburb> GetAllSuburbs()
@@ -316,10 +361,19 @@ namespace RecipeApp.Repositories
 		}
 		public int DeleteStore(string storeName)
 		{
-			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblStore WHERE Store = @storeName;", conn))
+			using (SqlCommand cmd = new SqlCommand($"DELETE StoreID FROM tblStore WHERE Store = @storeName;", conn))
 			{
 				cmd.Parameters.AddWithValue("@storeName", storeName);
 				return cmd.ExecuteNonQuery();
+			}
+		}
+		public string ValidStore(string storeName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT Store FROM tblStore WHERE Store = @storeName", conn))
+			{
+				cmd.Parameters.AddWithValue("@storeName", storeName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
 			}
 		}
 		public List<Store> GetAllStores()
@@ -374,6 +428,15 @@ namespace RecipeApp.Repositories
 				return cmd.ExecuteNonQuery();
 			}
 		}
+		public string ValidUsername(string username)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT Username FROM tblUser WHERE Username = @username", conn))
+			{
+				cmd.Parameters.AddWithValue("@username", username);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
+			}
+		}
 		public List<User> GetAllUsers()
 		{
 			List<User> users = new List<User>();
@@ -417,10 +480,19 @@ namespace RecipeApp.Repositories
 		}
 		public int DeleteCategory(string categoryName)
 		{
-			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblCategory WHERE Category = @categoryName;", conn))
+			using (SqlCommand cmd = new SqlCommand($"DELETE CategoryID FROM tblCategory WHERE Category = @categoryName;", conn))
 			{
 				cmd.Parameters.AddWithValue("@categoryName", categoryName);
 				return cmd.ExecuteNonQuery();
+			}
+		}
+		public string ValidCategory(string categoryName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT Category FROM tblCategory WHERE Category = @categoryName", conn))
+			{
+				cmd.Parameters.AddWithValue("@categoryName", categoryName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
 			}
 		}
 		public List<Category> GetAllCategories()
@@ -468,10 +540,28 @@ namespace RecipeApp.Repositories
 		}
 		public int DeleteRecipe(string title)
 		{
-			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblRecipe WHERE Title = @title;", conn))
+			using (SqlCommand cmd = new SqlCommand($"DELETE RecipeID FROM tblRecipe WHERE Title = @title;", conn))
 			{
 				cmd.Parameters.AddWithValue("@title", title);
 				return cmd.ExecuteNonQuery();
+			}
+		}
+		public string ValidRecipe(string title)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT Title FROM tblRecipe WHERE Title = @title", conn))
+			{
+				cmd.Parameters.AddWithValue("@title", title);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
+			}
+		}
+		public int GetRecipeIDByTitle(string title)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT RecipeID FROM tblRecipe WHERE Title = @title", conn))
+			{
+				cmd.Parameters.AddWithValue("@title", title);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
 			}
 		}
 		public List<Recipe> GetAllRecipes()
@@ -529,7 +619,7 @@ namespace RecipeApp.Repositories
 		// CRUD operations for Ingredients
 		public int UpdateIngredient(int ingredientID, string ingredientName)
 		{
-			using (SqlCommand cmd = new SqlCommand($"UPDATE tblIngredient SET IngredientName = @ingredientName, RecipeID = @recipeID WHERE IngredientID = @ingredientID", conn))
+			using (SqlCommand cmd = new SqlCommand($"UPDATE tblIngredient SET Ingredient = @ingredientName, RecipeID = @recipeID WHERE IngredientID = @ingredientID", conn))
 			{
 				cmd.Parameters.AddWithValue("@ingredientName", ingredientName);
 				cmd.Parameters.AddWithValue("@ingredientID", ingredientID);
@@ -538,7 +628,7 @@ namespace RecipeApp.Repositories
 		}
 		public int InsertIngredient(Ingredient ingredientTemp)
 		{
-			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblIngredient (IngredientName, RecipeID) VALUES (@ingredientName, @recipeID); SELECT SCOPE_IDENTITY();", conn))
+			using (SqlCommand cmd = new SqlCommand($"INSERT INTO tblIngredient (Ingredient, RecipeID) VALUES (@ingredientName, @recipeID); SELECT SCOPE_IDENTITY();", conn))
 			{
 				cmd.Parameters.AddWithValue("@ingredientName", ingredientTemp.IngredientName);
 				cmd.Parameters.AddWithValue("@recipeID", ingredientTemp.IngredientID);
@@ -547,10 +637,28 @@ namespace RecipeApp.Repositories
 		}
 		public int DeleteIngredient(string ingredientName)
 		{
-			using (SqlCommand cmd = new SqlCommand($"DELETE FROM tblIngredient WHERE IngredientName = @ingredientName;", conn))
+			using (SqlCommand cmd = new SqlCommand($"DELETE IngredientID FROM tblIngredient WHERE Ingredient = @ingredientName;", conn))
 			{
 				cmd.Parameters.AddWithValue("@ingredientName", ingredientName);
 				return cmd.ExecuteNonQuery();
+			}
+		}
+		public string ValidIngredient(string ingredientName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT Ingredient FROM tblIngredient WHERE Ingredient = @ingredientName", conn))
+			{
+				cmd.Parameters.AddWithValue("@ingredientName", ingredientName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? result.ToString() : null; // Return null if not found
+			}
+		}
+		public int GetIngredientIDByName(string ingredientName)
+		{
+			using (SqlCommand cmd = new SqlCommand($"SELECT IngredientID FROM tblIngredient WHERE Ingredient = @ingredientName", conn))
+			{
+				cmd.Parameters.AddWithValue("@ingredientName", ingredientName);
+				object result = cmd.ExecuteScalar();
+				return result != null ? Convert.ToInt32(result) : -1; // Return -1 if not found
 			}
 		}
 		public List<Ingredient> GetAllIngredients()

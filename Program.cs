@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlTypes;
+using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client.Extensions.Msal;
@@ -54,333 +55,1223 @@ namespace RecipeApp
 			}
 		}
 
-
 		//Country CRUD operations
 		private static void UpdateCountry()
 		{
-			while (Console.ReadKey(true).Key != ConsoleKey.Escape)
+			while (true)
 			{
+				Console.Clear();
 				view.DisplayMessage("----Update Country----\n");
-				view.DisplayMessage("press ESC at anytime to exit");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
 				view.DisplayMessage("Enter the Country to update: ");
-				string countryName = view.GetInput();
+				string temp = view.GetInput();
+				string countryName = ValidateCountry(temp);
+				if (countryName.ToUpper() == "ESC") break ;
+
 				int countryID = storageManager.GetCountryID(countryName);
-				view.DisplayMessage("Enter the new brand name: ");
-				string updatedCountry = view.GetInput();
+
+				view.DisplayMessage("Enter the new country name: ");
+				string updatedCountry = view.GetInput().ToUpper();
+				if (updatedCountry.IsNullOrEmpty())
+				{
+					view.DisplayMessage("Country name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000); // Pause for a moment before continuing
+					continue;
+
+				}
+				if (updatedCountry.ToUpper() == "ESC") break;
+
 				int rowsAffected = storageManager.UpdateCountry(countryID, updatedCountry);
-				view.DisplayMessage($"rows Affected: {rowsAffected}");
+				view.DisplayMessage($"Rows affected: {rowsAffected}\n");
+
+				view.DisplayMessage("Press any key to continue...");
+				Console.ReadKey(true);
 			}
-			return;
+
+			Console.Clear();
 		}
 		private static void InsertCountry()
 		{
-			view.DisplayMessage("Enter new country: ");
-			string countryName = view.GetInput();
-			int countryID = 0;
-			Country country1 = new Country(countryID, countryName);
-			int generatedID = storageManager.InsertCountry(country1);
-			view.DisplayMessage($"New country inserted with id: {generatedID}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Insert New Country----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter new country: ");
+				string countryName = view.GetInput();
+				if (countryName.IsNullOrEmpty())
+				{
+					view.DisplayMessage("Country name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000); // Pause for a moment before continuing
+					continue;
+				}
+				if (countryName.ToUpper() == "ESC")
+					break;
+
+				int countryID = 0;
+				Country country1 = new Country(countryID, countryName);
+				int generatedID = storageManager.InsertCountry(country1);
+				view.DisplayMessage($"New country inserted with ID: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 
 		}
-
 		private static void DeleteCountry()
 		{
-			view.DisplayMessage("Enter the country name to delete: ");
-			string countryName = view.GetInput();
-			int rowsAffected = storageManager.DeleteCountry(countryName);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete Country----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the country name to delete: ");
+				string countryName = view.GetInput();
+				if (countryName.ToUpper() == "ESC")
+					break;
+
+				int rowsAffected = storageManager.DeleteCountry(countryName);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		// Role CRUD operations
 
 		private static void UpdateRole()
 		{
 
-			view.DisplayMessage("Enter the RoleID to update: ");
-			int roleID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Role: ");
-			string role = view.GetInput();
-			int rowsAffected = storageManager.UpdateRole(roleID, role);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update Role----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Role to update: ");
+				string rolename = view.GetInput();
+				if (rolename.ToUpper() == "ESC")
+					break;
+
+				string role = ValidateRole(rolename);
+				int roleID = storageManager.GetRoleIDByName(rolename);
+
+				view.DisplayMessage("Enter the new Role: ");
+				string newRole = view.GetInput();
+				if (newRole.IsNullOrEmpty())
+				{
+					view.DisplayMessage("Role name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000); // Pause for a moment before continuing
+					continue;
+				}
+				if (newRole.ToUpper() == "ESC")
+					break;
+
+				int rowsAffected = storageManager.UpdateRole(roleID, newRole);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 
 		}
 		private static void InsertRole()
 		{
-			view.DisplayMessage("Enter new Role: ");
-			string role = view.GetInput();
-			int roleID = 0;
-			Role role1 = new Role(roleID, role);
-			int generatedID = storageManager.InsertRole(role1);
-			view.DisplayMessage($"New role inserted with id: {generatedID}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Insert New Role----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter new Role: ");
+				string role = view.GetInput();
+				if (role.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(role))
+				{
+					view.DisplayMessage("Role name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000); // pause briefly
+					continue; // stay in loop
+				}
+
+				int roleID = 0;
+				Role role1 = new Role(roleID, role);
+				int generatedID = storageManager.InsertRole(role1);
+				view.DisplayMessage($"New role inserted with ID: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void DeleteRole()
 		{
-			view.DisplayMessage("Enter the role to delete: ");
-			string role = view.GetInput();
-			int rowsAffected = storageManager.DeleteRole(role);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete Role----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the role to delete: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string role = ValidateRole(temp);
+				if (string.IsNullOrEmpty(role))
+				{
+					view.DisplayMessage("Role name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue; // stay in loop
+				}
+
+				int rowsAffected = storageManager.DeleteRole(role);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		// CRUD operations for Region
 
 		private static void UpdateRegion()
 		{
-			view.DisplayMessage("Enter the RegionID to update: ");
-			int regionID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Area: ");
-			string area = view.GetInput();
-			int rowsAffected = storageManager.UpdateRegion(regionID, area);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update Region----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Region to update: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string region1 = ValidateRegion(temp);
+				int regionID = storageManager.GetRegionIDByName(region1);
+
+				view.DisplayMessage("Enter the new Region: ");
+				string area = view.GetInput();
+				if (area.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(area))
+				{
+					view.DisplayMessage("Region cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000); // Pause briefly
+					continue; // go back to start of loop
+				}
+
+				int rowsAffected = storageManager.UpdateRegion(regionID, area);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void InsertRegion()
 		{
-			view.DisplayMessage("Enter new Area: ");
-			string area = view.GetInput();
-			view.DisplayMessage("Enter Country of Area: ");
-			string country = view.GetInput();
-			int countryID = storageManager.GetCountryID(country);
-			int regionID = 0;
-			Region region1 = new Region(regionID, countryID, area);
-			int generatedID = storageManager.InsertRegion(region1);
-			view.DisplayMessage($"New region inserted with id: {generatedID}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Insert New Region----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter new Region: ");
+				string area = view.GetInput();
+				if (area.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(area))
+				{
+					view.DisplayMessage("Region cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue; // prompt again
+				}
+
+				view.DisplayMessage("Enter Country of Area: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(temp))
+				{
+					view.DisplayMessage("Country cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue; // prompt again
+				}
+
+				string country = ValidateCountry(temp);
+				int countryID = storageManager.GetCountryID(country);
+				int regionID = 0;
+
+				Region region1 = new Region(regionID, countryID, area);
+				int generatedID = storageManager.InsertRegion(region1);
+				view.DisplayMessage($"New region inserted with ID: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void DeleteRegion()
 		{
-			view.DisplayMessage("Enter the Area to delete: ");
-			string area = view.GetInput();
-			int rowsAffected = storageManager.DeleteRegion(area);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete Region----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Area to delete: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string area = ValidateRegion(temp);
+				int regionID = storageManager.GetRegionIDByName(area);
+
+				int rowsAffected = storageManager.DeleteRegion(area);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 
 		// CRUD operations for City
 		private static void UpdateCity()
 		{
-			view.DisplayMessage("Enter the CityID to update: ");
-			int cityID = view.GetIntInput();
-			view.DisplayMessage("Enter the new City: ");
-			string city = view.GetInput();
-			int rowsAffected = storageManager.UpdateCity(cityID, city);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update City----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the City to update: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string city = ValidateCity(temp);
+				int cityID = storageManager.GetCityIDByName(city);
+
+				view.DisplayMessage("Enter the new City: ");
+				string newCity = view.GetInput();
+				if (newCity.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(newCity))
+				{
+					view.DisplayMessage("City name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				int rowsAffected = storageManager.UpdateCity(cityID, newCity);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void InsertCity()
 		{
-			view.DisplayMessage("Enter new City: ");
-			string city = view.GetInput();
-			int cityID = 0;
-			City city1 = new City(cityID, city);
-			int generatedID = storageManager.InsertCity(city1);
-			view.DisplayMessage($"New city inserted with id: {generatedID}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Insert New City----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter new City: ");
+				string city = view.GetInput();
+				if (city.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(city))
+				{
+					view.DisplayMessage("City name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				int cityID = 0;
+				City city1 = new City(cityID, city);
+				int generatedID = storageManager.InsertCity(city1);
+				view.DisplayMessage($"New city inserted with ID: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void DeleteCity()
 		{
-			view.DisplayMessage("Enter the City to delete: ");
-			string city = view.GetInput();
-			int rowsAffected = storageManager.DeleteCity(city);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete City----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the City to delete: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string city = ValidateCity(temp);
+				int rowsAffected = storageManager.DeleteCity(city);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		// CRUD operations for Suburb
 		private static void UpdateSuburb()
 		{
-			view.DisplayMessage("Enter the SuburbID to update: ");
-			int suburbID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Name: ");
-			string suburb = view.GetInput();
-			int rowsAffected = storageManager.UpdateSuburb(suburbID, suburb);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update Suburb----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Suburb to update: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string suburb = ValidateSuburb(temp);
+				int suburbID = storageManager.GetSuburbIDByName(suburb);
+
+				view.DisplayMessage("Enter the new Name: ");
+				string newSuburb = view.GetInput();
+				if (newSuburb.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(newSuburb))
+				{
+					view.DisplayMessage("Suburb name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				int rowsAffected = storageManager.UpdateSuburb(suburbID, newSuburb);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void InsertSuburb()
 		{
-			view.DisplayMessage("Enter new Suburb: ");
-			string suburb = view.GetInput();
-			view.DisplayMessage("Enter Zipcode of Suburb: ");
-			int zipcode = view.GetIntInput();
-			view.DisplayMessage("Enter City of Suburb: ");
-			string city = view.GetInput();
-			int cityID = storageManager.GetCityIDByName(city);
-			int suburbID = 0;
-			Suburb suburb1 = new Suburb(suburbID, cityID, suburb, zipcode);
-			int generatedID = storageManager.InsertSuburb(suburb1);
-			view.DisplayMessage($"New suburb inserted with id: {generatedID}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Insert New Suburb----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter new Suburb: ");
+				string suburb = view.GetInput();
+				if (suburb.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(suburb))
+				{
+					view.DisplayMessage("Suburb name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter Zipcode of Suburb: ");
+				int temp = view.GetIntInput();
+				int zipcode = ValidateZipcode(temp.ToString());
+
+				view.DisplayMessage("Enter City of Suburb: ");
+				string tempCity = view.GetInput();
+				if (tempCity.ToUpper() == "ESC")
+					break;
+
+				string city = ValidateCity(tempCity);
+				int cityID = storageManager.GetCityIDByName(city);
+				int suburbID = 0;
+
+				Suburb suburb1 = new Suburb(suburbID, cityID, suburb, zipcode);
+				int generatedID = storageManager.InsertSuburb(suburb1);
+				view.DisplayMessage($"New suburb inserted with ID: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void DeleteSuburb()
 		{
-			view.DisplayMessage("Enter the Suburb to delete: ");
-			string suburb = view.GetInput();
-			int rowsAffected = storageManager.DeleteSuburb(suburb);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete Suburb----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Suburb to delete: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string suburb = ValidateSuburb(temp);
+				int rowsAffected = storageManager.DeleteSuburb(suburb);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		// CRUD operations for Store
 		private static void UpdateStore()
 		{
-			view.DisplayMessage("Enter the StoreID to update: ");
-			int storeID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Store: ");
-			string store = view.GetInput();
-			int rowsAffected = storageManager.UpdateStore(storeID, store);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update Store----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Store to update: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string storeName = ValidateStore(temp);
+
+				view.DisplayMessage("Enter the Store ID: ");
+				int storeID = view.GetIntInput();
+
+				view.DisplayMessage("Enter the new Store: ");
+				string store = view.GetInput();
+				if (store.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(store))
+				{
+					view.DisplayMessage("Store name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				int rowsAffected = storageManager.UpdateStore(storeID, store);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void InsertStore()
 		{
-			view.DisplayMessage("Enter new Store: ");
-			string store = view.GetInput();
-			view.DisplayMessage("Enter Suburb of Store: ");
-			string suburb = view.GetInput();
-			int suburbID = storageManager.GetSuburbIDByName(suburb);
-			int storeID = 0;
-			Store store1 = new Store(storeID, suburbID, store);
-			int generatedID = storageManager.InsertStore(store1);
-			view.DisplayMessage($"New store inserted with id: {generatedID}");
-		}
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Insert New Store----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
 
+				view.DisplayMessage("Enter new Store: ");
+				string store = view.GetInput();
+				if (store.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(store))
+				{
+					view.DisplayMessage("Store name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter Suburb of Store: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string suburb = ValidateSuburb(temp);
+				int suburbID = storageManager.GetSuburbIDByName(suburb);
+				int storeID = 0;
+
+				Store store1 = new Store(storeID, suburbID, store);
+				int generatedID = storageManager.InsertStore(store1);
+				view.DisplayMessage($"New store inserted with ID: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
+		}
 		private static void DeleteStore()
 		{
-			view.DisplayMessage("Enter the Store to delete: ");
-			string store = view.GetInput();
-			int rowsAffected = storageManager.DeleteStore(store);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete Store----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Store to delete: ");
+				string store = view.GetInput();
+				if (store.ToUpper() == "ESC")
+					break;
+
+				int rowsAffected = storageManager.DeleteStore(store);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		//CRUD operations for User
 		private static void UpdateUser()
 		{
-			view.DisplayMessage("Enter the UserID to update: ");
-			int userID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Username: ");
-			string username = view.GetInput();
-			view.DisplayMessage("Enter the new Password: ");
-			string password = view.GetInput();
-			int rowsAffected = storageManager.UpdateUser(userID, username, password);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update User----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Username to update: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string username = ValidateUsername(temp);
+				int userID = storageManager.GetUserIDByUsername(username);
+
+				view.DisplayMessage("Enter the new Username: ");
+				string newUsername = view.GetInput();
+				if (newUsername.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(newUsername))
+				{
+					view.DisplayMessage("Username cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter the new Password: ");
+				string password = view.GetInput();
+				if (password.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(password))
+				{
+					view.DisplayMessage("Password cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				int rowsAffected = storageManager.UpdateUser(userID, newUsername, password);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void InsertUser()
 		{
-			view.DisplayMessage("Enter new Username: ");
-			string username = view.GetInput();
-			view.DisplayMessage("Enter new Email: ");
-			string email = view.GetInput();
-			view.DisplayMessage("Enter new First Name: ");
-			string firstName = view.GetInput();
-			view.DisplayMessage("Enter new Last Name: ");
-			string lastName = view.GetInput();
-			view.DisplayMessage("Enter new Password: ");
-			string password = view.GetInput();
-			view.DisplayMessage("Enter Role Name: ");
-			string roleName = view.GetInput();
-
-			int roleID = storageManager.GetRoleIDByName(roleName);
-			if (roleID == -1)
+			while (true)
 			{
-				view.DisplayMessage("Role not found. Please enter a valid role.");
-				return;
+				Console.Clear();
+				view.DisplayMessage("----Insert New User----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter new Username: ");
+				string username = view.GetInput();
+				if (username.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(username))
+				{
+					view.DisplayMessage("Username cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter new Email: ");
+				string email = view.GetInput();
+				if (email.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(email) || !email.Contains("@"))
+				{
+					view.DisplayMessage("Email is invalid, please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter new First Name: ");
+				string firstName = view.GetInput();
+				if (firstName.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(firstName))
+				{
+					view.DisplayMessage("First Name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter new Last Name: ");
+				string lastName = view.GetInput();
+				if (lastName.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(lastName))
+				{
+					view.DisplayMessage("Last Name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter new Password: ");
+				string password = view.GetInput();
+				if (password.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(password))
+				{
+					view.DisplayMessage("Password cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter Role Name: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string roleName = ValidateRole(temp);
+				int roleID = storageManager.GetRoleIDByName(roleName);
+
+				int userID = 0;
+				User user1 = new User(userID, firstName, lastName, username, email, roleID, password);
+				int generatedID = storageManager.InsertUser(user1);
+				view.DisplayMessage($"New user inserted with ID: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
 			}
-
-			int userID = 0;
-
-			User user1 = new User(userID, firstName, lastName, username, email, roleID, password);
-			int generatedID = storageManager.InsertUser(user1);
-			view.DisplayMessage($"New user inserted with id: {generatedID}");
+			Console.Clear();
 		}
 		private static void DeleteUser()
 		{
-			view.DisplayMessage("Enter the Username to delete: ");
-			string username = view.GetInput();
-			int rowsAffected = storageManager.DeleteUser(username);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete User----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Username to delete: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string username = ValidateUsername(temp);
+				int rowsAffected = storageManager.DeleteUser(username);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		//CRUD operations for category
 		private static void UpdateCategory()
 		{
-			view.DisplayMessage("Enter the CategoryID to update: ");
-			int categoryID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Category Name: ");
-			string categoryName = view.GetInput();
-			int rowsAffected = storageManager.UpdateCategory(categoryID, categoryName);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update Category----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Category to update: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string categoryName = ValidateCategory(temp);
+				int categoryID = storageManager.GetCategoryIDByName(categoryName);
+
+				view.DisplayMessage("Enter the new Category Name: ");
+				string newCategory = view.GetInput();
+				if (newCategory.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(newCategory))
+				{
+					view.DisplayMessage("Category name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				int rowsAffected = storageManager.UpdateCategory(categoryID, newCategory);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void InsertCategory()
 		{
-			view.DisplayMessage("Enter new Category Name: ");
-			string categoryName = view.GetInput();
-			int categoryID = 0;
-			Category category1 = new Category(categoryID, categoryName);
-			int generatedID = storageManager.InsertCategory(category1);
-			view.DisplayMessage($"New category inserted with id: {generatedID}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Insert New Category----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter new Category Name: ");
+				string categoryName = view.GetInput();
+				if (categoryName.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(categoryName))
+				{
+					view.DisplayMessage("Category name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				int categoryID = 0;
+				Category category1 = new Category(categoryID, categoryName);
+				int generatedID = storageManager.InsertCategory(category1);
+				view.DisplayMessage($"New category inserted with ID: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		private static void DeleteCategory()
 		{
-			view.DisplayMessage("Enter the Category Name to delete: ");
-			string categoryName = view.GetInput();
-			int rowsAffected = storageManager.DeleteCategory(categoryName);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete Category----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Category Name to delete: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string categoryName = ValidateCategory(temp);
+				int rowsAffected = storageManager.DeleteCategory(categoryName);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+			}
+			Console.Clear();
 		}
 		//CRUD operations for Recipe
 		private static void UpdateRecipe()
 		{
-			view.DisplayMessage("Enter the RecipeID to update: ");
-			int recipeID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Recipe Name: ");
-			string recipeName = view.GetInput();
-			view.DisplayMessage("Enter the new Method: ");
-			string method = view.GetInput();
-			view.DisplayMessage("Enter the new Category:");
-			string categoryName = view.GetInput();
-			view.DisplayMessage("Enter the New Region");
-			string regionName = view.GetInput();
-			int regionID = storageManager.GetRegionIDByName(regionName);
-			int categoryID = storageManager.GetCategoryIDByName(categoryName);
-			int rowsAffected = storageManager.UpdateRecipe(recipeID, recipeName, method, categoryID, regionID);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update Recipe----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Recipe to update: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string recipeName = ValidateRecipe(temp);
+				int recipeID = storageManager.GetRecipeIDByTitle(temp);
+
+				view.DisplayMessage("Enter the new Title: ");
+				string newTitle = view.GetInput();
+				if (newTitle.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(newTitle))
+				{
+					view.DisplayMessage("Title cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter the new Method: ");
+				string newMethod = view.GetInput();
+				if (newMethod.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(newMethod))
+				{
+					view.DisplayMessage("Method cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter the new Category: ");
+				string categoryName = view.GetInput();
+				if (categoryName.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(categoryName))
+				{
+					view.DisplayMessage("Category cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter the New Region: ");
+				string regionName = view.GetInput();
+				if (regionName.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(regionName))
+				{
+					view.DisplayMessage("Region cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				int regionID = storageManager.GetRegionIDByName(regionName);
+				int categoryID = storageManager.GetCategoryIDByName(categoryName);
+
+				int rowsAffected = storageManager.UpdateRecipe(recipeID, newTitle, newMethod, categoryID, regionID);
+				view.DisplayMessage($"Rows affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+				return;
+			}
+			Console.Clear();
 		}
 		private static void InsertRecipe()
 		{
-			view.DisplayMessage("----Insert Recipe----\n");
-			view.DisplayMessage("Enter your username:");
-			string username = view.GetInput();
-			int userID = storageManager.GetUserIDByUsername(username);
-			view.DisplayMessage("Enter the RecipeID to update: ");
-			int recipeID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Recipe Name: ");
-			string recipeName = view.GetInput();
-			view.DisplayMessage("Enter the new Method: ");
-			string method = view.GetInput();
-			view.DisplayMessage("Enter the new Category:");
-			string categoryName = view.GetInput();
-			view.DisplayMessage("Enter the New Region");
-			string regionName = view.GetInput();
-			int regionID = storageManager.GetRegionIDByName(regionName);
-			int categoryID = storageManager.GetCategoryIDByName(categoryName);
-			Recipe recipe1 = new Recipe(recipeID, recipeName, method, categoryID, userID, regionID);
-			int generatedID = storageManager.InsertRecipe(recipe1);
-			view.DisplayMessage($"New recipe inserted with id: {generatedID}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update Recipe----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter your username:");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string username = ValidateUsername(temp);
+				int userID = storageManager.GetUserIDByUsername(username);
+
+				view.DisplayMessage("Enter the Title to update: ");
+				string tempTitle = view.GetInput();
+				if (tempTitle.ToUpper() == "ESC")
+					break;
+
+				string Title = ValidateRecipe(tempTitle);
+				int recipeID = storageManager.GetRecipeIDByTitle(Title);
+
+				view.DisplayMessage("Enter the new Title: ");
+				string newTitle = view.GetInput();
+				if (newTitle.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(newTitle))
+				{
+					view.DisplayMessage("Title cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter the new Method: ");
+				string method = view.GetInput();
+				if (method.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(method))
+				{
+					view.DisplayMessage("Method cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter the new Category:");
+				string categoryName = view.GetInput();
+				if (categoryName.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(categoryName))
+				{
+					view.DisplayMessage("Category cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				view.DisplayMessage("Enter the New Region:");
+				string regionName = view.GetInput();
+				if (regionName.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(regionName))
+				{
+					view.DisplayMessage("Region cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue;
+				}
+
+				int regionID = storageManager.GetRegionIDByName(regionName);
+				int categoryID = storageManager.GetCategoryIDByName(categoryName);
+				Recipe recipe1 = new Recipe(recipeID, newTitle, method, categoryID, userID, regionID);
+				int generatedID = storageManager.InsertRecipe(recipe1);
+				view.DisplayMessage($"New recipe inserted with id: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+				break; // Exit after successful update
+			}
+			Console.Clear();
 		}
 		private static void DeleteRecipe()
 		{
-			view.DisplayMessage("Enter the Recipe Name to delete: ");
-			string recipeName = view.GetInput();
-			int rowsAffected = storageManager.DeleteRecipe(recipeName);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete Recipe----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Recipe Name to delete: ");
+				string recipeName = view.GetInput();
+				if (recipeName.ToUpper() == "ESC")
+					break;
+
+				int rowsAffected = storageManager.DeleteRecipe(recipeName);
+				view.DisplayMessage($"Rows Affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+				break; // Exit after successful attempt
+			}
+			Console.Clear();
 		}
+		//CRUD operations for Ingredient
 		private static void UpdateIngredient()
 		{
-			view.DisplayMessage("Enter the IngredientID to update: ");
-			int ingredientID = view.GetIntInput();
-			view.DisplayMessage("Enter the new Ingredient Name: ");
-			string ingredientName = view.GetInput();
-			int rowsAffected = storageManager.UpdateIngredient(ingredientID, ingredientName);
-			view.DisplayMessage($"rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Update Ingredient----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Ingredient to update: ");
+				string temp = view.GetInput();
+				if (temp.ToUpper() == "ESC")
+					break;
+
+				string ingredientName = ValidateIngredient(temp);
+				int ingredientID = storageManager.GetIngredientIDByName(ingredientName);
+
+				view.DisplayMessage("Enter the new Ingredient Name: ");
+				string newIngredient = view.GetInput();
+				if (newIngredient.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(newIngredient))
+				{
+					view.DisplayMessage("Ingredient name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue; // Allow user to retry
+				}
+
+				int rowsAffected = storageManager.UpdateIngredient(ingredientID, newIngredient);
+				view.DisplayMessage($"rows Affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+				break; // Exit after successful update
+			}
+			Console.Clear();
 		}
 		private static void InsertIngredient()
 		{
-			view.DisplayMessage("Enter new Ingredient Name: ");
-			string ingredientName = view.GetInput();
-			int ingredientID = 0;
-			Ingredient ingredient1 = new Ingredient(ingredientID, ingredientName);
-			int generatedID = storageManager.InsertIngredient(ingredient1);
-			view.DisplayMessage($"New ingredient inserted with id: {generatedID}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Insert Ingredient----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter new Ingredient Name: ");
+				string ingredientName = view.GetInput();
+				if (ingredientName.ToUpper() == "ESC")
+					break;
+
+				if (string.IsNullOrEmpty(ingredientName))
+				{
+					view.DisplayMessage("Ingredient name cannot be empty. Please try again.");
+					System.Threading.Thread.Sleep(1000);
+					continue; // Allow user to retry
+				}
+
+				int ingredientID = 0;
+				Ingredient ingredient1 = new Ingredient(ingredientID, ingredientName);
+				int generatedID = storageManager.InsertIngredient(ingredient1);
+				view.DisplayMessage($"New ingredient inserted with id: {generatedID}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+				break; // Exit after successful insertion
+			}
+			Console.Clear();
 		}
 		private static void DeleteIngredient()
 		{
-			view.DisplayMessage("Enter the Ingredient Name to delete: ");
-			string ingredientName = view.GetInput();
-			int rowsAffected = storageManager.DeleteIngredient(ingredientName);
-			view.DisplayMessage($"Rows Affected: {rowsAffected}");
+			while (true)
+			{
+				Console.Clear();
+				view.DisplayMessage("----Delete Ingredient----\n");
+				view.DisplayMessage("Type 'ESC' at any time to exit\n");
+
+				view.DisplayMessage("Enter the Ingredient Name to delete: ");
+				string ingredientName = view.GetInput();
+				if (ingredientName.ToUpper() == "ESC")
+					break;
+
+				int rowsAffected = storageManager.DeleteIngredient(ingredientName);
+				view.DisplayMessage($"Rows Affected: {rowsAffected}");
+
+				view.DisplayMessage("\nPress any key to continue...");
+				Console.ReadKey(true);
+				break; // Exit after one attempt
+			}
+			Console.Clear();
+		}
+		// Validation methods for all tables
+		private static string ValidateCountry(string input)
+		{
+			while (input != storageManager.ValidCountry(input))
+			{
+				view.DisplayMessage("Input is not a country in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
+		}
+		private static string ValidateRole(string input)
+		{
+			while (input != storageManager.ValidRole(input))
+			{
+				view.DisplayMessage("Input is not a role in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
+		}
+		private static string ValidateRegion(string input)
+		{
+			while (input != storageManager.ValidRegion(input))
+			{
+				view.DisplayMessage("Input is not a region in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
+		}
+		private static string ValidateCity(string input)
+		{
+			while (input != storageManager.ValidCity(input))
+			{
+				view.DisplayMessage("Input is not a city in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
+		}
+		private static string ValidateSuburb(string input)
+		{
+			while (input != storageManager.ValidSuburb(input))
+			{
+				view.DisplayMessage("Input is not a suburb in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
+		}
+		private static int ValidateZipcode(string input)
+		{
+			while (true)
+			{
+				if (input.IsNullOrEmpty())
+				{
+					Console.WriteLine("Zipcode cannot be null or empty.");
+					continue;
+				}
+
+				if (input.Length != 4)
+				{
+					Console.WriteLine("Zipcode must be exactly 4 digits.");
+					continue;
+				}
+
+				if (!input.All(char.IsDigit))
+				{
+					Console.WriteLine("Zipcode must contain only digits.");
+					continue;
+				}
+
+				// Valid zipcode, return as int
+				return int.Parse(input);
+			}
+		}
+		private static string ValidateStore(string input)
+		{
+			while (input != storageManager.ValidStore(input))
+			{
+				view.DisplayMessage("Input is not a store in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
+		}
+		private static string ValidateUsername(string input)
+		{
+			while (input != storageManager.ValidUsername(input))
+			{
+				view.DisplayMessage("Input is not a username in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
+		}
+		private static string ValidateCategory(string input)
+		{
+			while (input != storageManager.ValidCategory(input))
+			{
+				view.DisplayMessage("Input is not a category in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
+		}
+		private static string ValidateRecipe(string input)
+		{
+			while (input != storageManager.ValidRecipe(input))
+			{
+				view.DisplayMessage("Input is not a recipe in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
+		}
+		private static string ValidateIngredient(string input)
+		{
+			while (input != storageManager.ValidIngredient(input))
+			{
+				view.DisplayMessage("Input is not an ingredient in database, please try again: ");
+				input = view.GetInput();
+			}
+			return input;
 		}
 		private static string Register()
 		{
@@ -459,7 +1350,6 @@ namespace RecipeApp
 			}
 			return null;
 		}
-
 		private static void AdminMenu()
 		{
 			while (true)
@@ -522,7 +1412,6 @@ namespace RecipeApp
 				}
 			}
 		}
-		
 		private static void ChefMenu()
 		{
 			while (true)
@@ -580,164 +1469,201 @@ namespace RecipeApp
 		}
 		private static void CountryMenu()
 		{
-			string countryMenu = view.EditCountryMenu();
-			switch (countryMenu)
+			while (true) 
 			{
-				case "1":
-					Console.Clear();
-					InsertCountry();
-					break;
-				case "2":
-					Console.Clear();
-					UpdateCountry();
-					break;
-				case "3":
-					Console.Clear();
-					DeleteCountry();
-					break;
-				case "4":
-					Console.Clear();
-					view.DisplayCountries(storageManager.GetAllCountries());
-					break;
-				default:
-					Console.Clear();
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				string countryMenu = view.EditCountryMenu();
+				switch (countryMenu)
+				{
+					case "1":
+						Console.Clear();
+						InsertCountry();
+						break;
+					case "2":
+						Console.Clear();
+						UpdateCountry();
+						break;
+					case "3":
+						Console.Clear();
+						DeleteCountry();
+						break;
+					case "4":
+						Console.Clear();
+						view.DisplayCountries(storageManager.GetAllCountries());
+						break;
+					case "0":
+						Console.Clear();
+						return;
+					default:
+						Console.Clear();
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 		private static void RoleMenu()
 		{
-			string roleMenu = view.EditRoleMenu();
-			switch (roleMenu)
+			while (true)
 			{
-				case "1":
-					Console.Clear();
-					InsertRole();
-					break;
-				case "2":
-					Console.Clear();
-					UpdateRole();
-					break;
-				case "3":
-					Console.Clear();
-					DeleteRole();
-					break;
-				case "4":
-					Console.Clear();
-					view.DisplayRoles(storageManager.GetAllRoles());
-					break;
-				default:
-					Console.Clear();
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				string roleMenu = view.EditRoleMenu();
+				switch (roleMenu)
+				{
+					case "1":
+						Console.Clear();
+						InsertRole();
+						break;
+					case "2":
+						Console.Clear();
+						UpdateRole();
+						break;
+					case "3":
+						Console.Clear();
+						DeleteRole();
+						break;
+					case "4":
+						Console.Clear();
+						view.DisplayRoles(storageManager.GetAllRoles());
+						break;
+					case "0":
+						Console.Clear();
+						return;
+					default:
+						Console.Clear();
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 		private static void RegionMenu()
 		{
-			string regionMenu = view.EditRegionMenu();
-			switch (regionMenu)
+			while (true)
 			{
-				case "1":
-					Console.Clear();
-					InsertRegion();
-					break;
-				case "2":
-					Console.Clear();
-					UpdateRegion();
-					break;
-				case "3":
-					Console.Clear();
-					DeleteRegion();
-					break;
-				case "4":
-					Console.Clear();
-					view.DisplayRegions(storageManager.GetAllRegions());
-					break;
-				default:
-					Console.Clear();
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				string regionMenu = view.EditRegionMenu();
+				switch (regionMenu)
+				{
+					case "1":
+						Console.Clear();
+						InsertRegion();
+						break;
+					case "2":
+						Console.Clear();
+						UpdateRegion();
+						break;
+					case "3":
+						Console.Clear();
+						DeleteRegion();
+						break;
+					case "4":
+						Console.Clear();
+						view.DisplayRegions(storageManager.GetAllRegions());
+						break;
+					case "0":
+						Console.Clear();
+						return;
+					default:
+						Console.Clear();
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 		private static void CityMenu()
 		{
-			string cityMenu = view.EditCityMenu();
-			switch (cityMenu)
+			while ( true)
 			{
-				case "1":
-					Console.Clear();
-					InsertCity();
-					break;
-				case "2":
-					Console.Clear();
-					UpdateCity();
-					break;
-				case "3":
-					Console.Clear();
-					DeleteCity();
-					break;
-				case "4":
-					Console.Clear();
-					view.DisplayCities(storageManager.GetAllCities());
-					break;
-				default:
-					Console.Clear();
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				string cityMenu = view.EditCityMenu();
+				switch (cityMenu)
+				{
+					case "1":
+						Console.Clear();
+						InsertCity();
+						break;
+					case "2":
+						Console.Clear();
+						UpdateCity();
+						break;
+					case "3":
+						Console.Clear();
+						DeleteCity();
+						break;
+					case "4":
+						Console.Clear();
+						view.DisplayCities(storageManager.GetAllCities());
+						break;
+					case "0":
+						Console.Clear();
+						return;
+					default:
+						Console.Clear();
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 		private static void SuburbMenu()
 		{
-			string suburbMenu = view.EditSuburbMenu();
-			switch (suburbMenu)
+			while (true)
 			{
-				case "1":
-					Console.Clear();
-					InsertSuburb();
-					break;
-				case "2":
-					Console.Clear();
-					UpdateSuburb();
-					break;
-				case "3":
-					Console.Clear();
-					DeleteSuburb();
-					break;
-				case "4":
-					Console.Clear();
-					view.DisplaySuburbs(storageManager.GetAllSuburbs());
-					break;
-				default:
-					Console.Clear();
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				string suburbMenu = view.EditSuburbMenu();
+				switch (suburbMenu)
+				{
+					case "1":
+						Console.Clear();
+						InsertSuburb();
+						break;
+					case "2":
+						Console.Clear();
+						UpdateSuburb();
+						break;
+					case "3":
+						Console.Clear();
+						DeleteSuburb();
+						break;
+					case "4":
+						Console.Clear();
+						view.DisplaySuburbs(storageManager.GetAllSuburbs());
+						break;
+					case "0":
+						Console.Clear();
+						return;
+					default:
+						Console.Clear();
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 		private static void StoreMenu()
 		{
-			string storeMenu = view.EditStoreMenu();
-			switch (storeMenu)
+			while (true)
 			{
-				case "1":
-					Console.Clear();
-					InsertStore();
-					break;
-				case "2":
-					Console.Clear();
-					UpdateStore();
-					break;
-				case "3":
-					Console.Clear();
-					DeleteStore();
-					break;
-				case "4":
-					Console.Clear();
-					view.DisplayStores(storageManager.GetAllStores());
-					break;
-				default:
-					Console.Clear();
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				// Display the store menu and get the user's choice
+				string storeMenu = view.EditStoreMenu();
+				switch (storeMenu)
+				{
+					case "1":
+						Console.Clear();
+						InsertStore();
+						break;
+					case "2":
+						Console.Clear();
+						UpdateStore();
+						break;
+					case "3":
+						Console.Clear();
+						DeleteStore();
+						break;
+					case "4":
+						Console.Clear();
+						view.DisplayStores(storageManager.GetAllStores());
+						break;
+					case "0":
+						Console.Clear();
+						return;
+					default:
+						Console.Clear();
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 		private static void EditUserMenu()
@@ -775,91 +1701,111 @@ namespace RecipeApp
 		}
 		private static void CategoryMenu()
 		{
-			string categoryMenu = view.EditCategoryMenu();
-			switch (categoryMenu)
+			while (true)
 			{
-				case "1":
-					Console.Clear();
-					InsertCategory();
-					break;
-				case "2":
-					Console.Clear();
-					UpdateCategory();
-					break;
-				case "3":
-					Console.Clear();
-					DeleteCategory();
-					break;
-				case "4":
-					Console.Clear();
-					view.DisplayCategories(storageManager.GetAllCategories());
-					break;
-				default:
-					Console.Clear();
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				// Display the category menu and get the user's choice
+				string categoryMenu = view.EditCategoryMenu();
+				switch (categoryMenu)
+				{
+					case "1":
+						Console.Clear();
+						InsertCategory();
+						break;
+					case "2":
+						Console.Clear();
+						UpdateCategory();
+						break;
+					case "3":
+						Console.Clear();
+						DeleteCategory();
+						break;
+					case "4":
+						Console.Clear();
+						view.DisplayCategories(storageManager.GetAllCategories());
+						break;
+					case "0":
+						Console.Clear();
+						return;
+					default:
+						Console.Clear();
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 		private static void RecipeMenu()
 		{
-			string recipeMenu = view.EditRecipeMenu();
-			switch (recipeMenu)
+			while (true)
 			{
-				case "1":
-					Console.Clear();
-					InsertRecipe();
-					break;
-				case "2":
-					Console.Clear();
-					UpdateRecipe();
-					break;
-				case "3":
-					Console.Clear();
-					DeleteRecipe();
-					break;
-				case "4":
-					Console.Clear();
-					view.DisplayRecipes(storageManager.GetAllRecipes());
-					break;
-				default:
-					Console.Clear();
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				string recipeMenu = view.EditRecipeMenu();
+				switch (recipeMenu)
+				{
+					case "1":
+						Console.Clear();
+						InsertRecipe();
+						break;
+					case "2":
+						Console.Clear();
+						UpdateRecipe();
+						break;
+					case "3":
+						Console.Clear();
+						DeleteRecipe();
+						break;
+					case "4":
+						Console.Clear();
+						view.DisplayRecipes(storageManager.GetAllRecipes());
+						break;
+					case "0":
+						Console.Clear();
+						return;
+					default:
+						Console.Clear();
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 		private static void IngredientMenu()
 		{
-			string ingredientMenu = view.EditIngredientMenu();
-			switch (ingredientMenu)
+			while (true)
 			{
-				case "1":
-					Console.Clear();
-					InsertIngredient();
-					break;
-				case "2":
-					Console.Clear();
-					UpdateIngredient();
-					break;
-				case "3":
-					Console.Clear();
-					DeleteIngredient();
-					break;
-				case "4":
-					Console.Clear();
-					view.DisplayIngredients(storageManager.GetAllIngredients());
-					break;
-				default:
-					Console.Clear();
-					view.DisplayMessage("Invalid option. Please try again.");
-					break;
+				string ingredientMenu = view.EditIngredientMenu();
+				switch (ingredientMenu)
+				{
+					case "1":
+						Console.Clear();
+						InsertIngredient();
+						break;
+					case "2":
+						Console.Clear();
+						UpdateIngredient();
+						break;
+					case "3":
+						Console.Clear();
+						DeleteIngredient();
+						break;
+					case "4":
+						Console.Clear();
+						view.DisplayIngredients(storageManager.GetAllIngredients());
+						break;
+					case "0":
+						Console.Clear();
+						return;
+					default:
+						Console.Clear();
+						view.DisplayMessage("Invalid option. Please try again.");
+						break;
+				}
 			}
 		}
 		private static void ReportMenu()
 		{
-			string viewReports = view.viewReportsMenu();
-
-			switch (viewReports)
+			while (true)
 			{
+				string viewReports = view.viewReportsMenu();
+				switch (viewReports)
+				{
 				case "1":
 					Console.Clear();
 					view.UserReport(storageManager.GetAllUsers());
@@ -882,14 +1828,13 @@ namespace RecipeApp
 					break;
 				case "0":
 					Console.Clear();
-					Exit();
-					break;
+					return;
 				default:
 					Console.Clear();
 					view.DisplayMessage("Invalid option. Please try again.");
 					break;
+				}
 			}
-
 		}
 	}
 }
