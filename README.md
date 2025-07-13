@@ -1,0 +1,1 @@
+In this Console App, you can register or login, edit view create or delete data from tables, as an admin, view reports such as recipes containing chicken as a user and create recipes and ingredients as chef. 
