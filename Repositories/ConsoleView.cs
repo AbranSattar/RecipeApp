@@ -162,6 +162,16 @@ namespace RecipeApp.Repositories
 			Console.WriteLine("3. country report");
 			Console.WriteLine("4. recipe report");
 			Console.WriteLine("5. suburb report");
+			Console.WriteLine("6. ingredients in recipe report");
+			Console.WriteLine("7. ingredients per store report");
+			Console.WriteLine("8. cities with most stores report");
+			Console.WriteLine("9. most ingredients by store report");
+			Console.WriteLine("10. number of recipes by region report");
+			Console.WriteLine("11. chef recipe region report");
+			Console.WriteLine("12. recipe category ingredients report");
+			Console.WriteLine("13. recipe region country report");
+			Console.WriteLine("14. recipes that use garlic report");
+			Console.WriteLine("15. stores that contain chicken report");
 			Console.WriteLine("0. Exit");
 			return Console.ReadLine();
 		}
@@ -227,7 +237,127 @@ namespace RecipeApp.Repositories
 			return;
 		}
 		//complex query reports
-
+		public void IngredientsInRecipe(List<ComplexQry1> complexQry1s)
+		{
+			Console.WriteLine("Ingredients in Recipe Report:\n");
+			foreach (ComplexQry1 complexQry1 in complexQry1s)
+			{
+				Console.WriteLine($"Title: {complexQry1.Title}, Method: {complexQry1.Method}, Ingredients: {complexQry1.Ingredients}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void IngredientsPerStore(List<ComplexQry2> complexQry2s)
+		{
+			Console.WriteLine("Ingredients per Store Report:\n");
+			foreach (ComplexQry2 complexQry2 in complexQry2s)
+			{
+				Console.WriteLine($"StoreID: {complexQry2.StoreID}, Store: {complexQry2.Store}, NumberOfIngredients: {complexQry2.IngredientID}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void CitiesWithMostStores(List<ComplexQry3> complexQry3s)
+		{
+			Console.WriteLine("Cities with Most Stores Report:\n");
+			foreach (ComplexQry3 complexQry3 in complexQry3s)
+			{
+				Console.WriteLine($"City: {complexQry3.City}, NumberOfStores: {complexQry3.Store}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void MostIngredientsByStore(List<ComplexQry4> complexQry4s)
+		{
+			Console.WriteLine("Most Ingredients by Store Report:\n");
+			foreach (ComplexQry4 complexQry4 in complexQry4s)
+			{
+				Console.WriteLine($"City: {complexQry4.City}, Suburb: {complexQry4.Suburb},Store: {complexQry4.Store}, NumberOfIngredients: {complexQry4.Ingredient}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void NumOfRecipesByRegion(List<ComplexQry5> complexQry5s)
+		{
+			Console.WriteLine("Number of Recipes by Region Report:\n");
+			foreach (ComplexQry5 complexQry5 in complexQry5s)
+			{
+				Console.WriteLine($"Region: {complexQry5.Area}, NumberOfRecipes: {complexQry5.RecipeID}, TotalUniqueIngredients: {complexQry5.IngredientID}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		//Advanced query reports
+		public void ChefRecipeRegion(List<AdvancedQry1> advancedQry1s)
+		{
+			Console.WriteLine("Chef Recipe Region Report:\n");
+			foreach (AdvancedQry1 advancedQry1 in advancedQry1s)
+			{
+				Console.WriteLine($"User: {advancedQry1.FirstName} {advancedQry1.LastName}, Recipe: {advancedQry1.Title}, Region: {advancedQry1.Area}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void RecipeCategoryIngredients(List<AdvancedQry2> advancedQry2s)
+		{
+			Console.WriteLine("Recipe Category Ingredients Report:\n");
+			foreach (AdvancedQry2 advancedQry2 in advancedQry2s)
+			{
+				Console.WriteLine($"Recipe: {advancedQry2.Title}, Category: {advancedQry2.Category}, Ingredients: {advancedQry2.Ingredients}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void RecipeRegionCountry(List<AdvancedQry3> advancedQry3s)
+		{
+			Console.WriteLine("Recipe Region Country report\n");
+			foreach (AdvancedQry3 advancedQry3 in advancedQry3s)
+			{
+				Console.WriteLine($"Region: {advancedQry3.Region}, Title: {advancedQry3.Title}, Country: {advancedQry3.Country}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void RecipesUseGarlic(List<AdvancedQry4> advancedQry4s)
+		{
+			Console.WriteLine("Recipes that use garlic report\n");
+			foreach (AdvancedQry4 advancedQry4 in advancedQry4s)
+			{
+				Console.WriteLine($"Title: {advancedQry4.Title}, Method: {advancedQry4.Method}, Ingredients: {advancedQry4.Ingredient}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
+		public void StoreContainChicken(List<AdvancedQry5> advancedQry5s)
+		{
+			Console.WriteLine("Stores that contain chicken report\n");
+			foreach (AdvancedQry5 advancedQry5 in advancedQry5s)
+			{
+				Console.WriteLine($"Store: {advancedQry5.StoreName}, Ingredient: {advancedQry5.IngredientName}");
+			}
+			Console.WriteLine("Press any key to return");
+			Console.ReadKey();
+			Console.Clear();
+			return;
+		}
 		//display methods for each table
 		public void DisplayCountries(List<Country> countries)
         {

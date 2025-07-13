@@ -1806,27 +1806,67 @@ namespace RecipeApp
 				string viewReports = view.viewReportsMenu();
 				switch (viewReports)
 				{
-				case "1":
-					Console.Clear();
-					view.UserReport(storageManager.GetAllUsers());
-					break;
-				case "2":
-					Console.Clear();
-					view.CityReport(storageManager.CityReport());
-					break;
-				case "3":
-					Console.Clear();
-					view.CountryReport(storageManager.CountryReport());
-					break;
-				case "4":
-					Console.Clear();
-					view.RecipeReport(storageManager.GetAllRecipes());
-					break;
-				case "5":
-					Console.Clear();
-					view.SuburbReport(storageManager.SuburbReport());
-					break;
-				case "0":
+					case "1":
+						Console.Clear();
+						view.UserReport(storageManager.GetAllUsers());
+						break;
+					case "2":
+						Console.Clear();
+						view.CityReport(storageManager.CityReport());
+						break;
+					case "3":
+						Console.Clear();
+						view.CountryReport(storageManager.CountryReport());
+						break;
+					case "4":
+						Console.Clear();
+						view.RecipeReport(storageManager.GetAllRecipes());
+						break;
+					case "5":
+						Console.Clear();
+						view.SuburbReport(storageManager.SuburbReport());
+						break;
+					case "6":
+						Console.Clear();
+						view.IngredientsInRecipe(storageManager.IngredientsInRecipe());
+						break;
+					case "7":
+						Console.Clear();
+						view.IngredientsPerStore(storageManager.IngredientsPerStore());
+						break;
+					case "8":
+						Console.Clear();
+						view.CitiesWithMostStores(storageManager.CitiesWithMostStores());
+						break;
+					case "9":
+						Console.Clear();
+						view.NumOfRecipesByRegion(storageManager.NumOfRecipePerRegion());
+						break;
+					case "10":
+						Console.Clear();
+						view.MostIngredientsByStore(storageManager.MostIngredientsByStore());
+						break;
+					case "11":
+						Console.Clear();
+						view.ChefRecipeRegion(storageManager.ChefRecipeRegion());
+						break;
+					case "12":
+						Console.Clear();
+						view.RecipeCategoryIngredients(storageManager.RecipeCategoryIngredients());
+						break;
+					case "13":
+						Console.Clear();
+						view.RecipeRegionCountry(storageManager.RecipeRegionCountry());
+						break;
+					case "14":
+						Console.Clear();
+						view.RecipesUseGarlic(storageManager.RecipesUseGarlic());
+						break;
+					case "15":
+						Console.Clear();
+						view.StoreContainChicken(storageManager.StoreContainChicken());
+						break;
+					case "0":
 					Console.Clear();
 					return;
 				default:

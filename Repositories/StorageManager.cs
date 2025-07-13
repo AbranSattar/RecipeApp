@@ -160,7 +160,6 @@ namespace RecipeApp.Repositories
 			return roles;
 		}
 		// CRUD operations for Region
-
 		public int UpdateRegion(int regionID, string regionName)
 		{
 			using (SqlCommand cmd = new SqlCommand($"UPDATE tblRegion SET Area = @regionName WHERE RegionID = @regionID", conn))
@@ -679,8 +678,7 @@ namespace RecipeApp.Repositories
 			}
 			return ingredients;
 		}
-
-
+		// REPORTS SIMPLE
 		public List<User> UsersReport()
         {
 			List<User> user = new List<User>();
@@ -782,6 +780,199 @@ namespace RecipeApp.Repositories
 				}
 			}
 			return suburbs;
+		}
+		// REPORTS COMPLEX
+		public List<ComplexQry1> IngredientsInRecipe()
+		{
+			List<ComplexQry1> ingredientsInRecipe = new List<ComplexQry1>();
+			string query = "SELECT r.Title ,r.Method , STRING_AGG (i.Ingredient, ', ') AS Ingredients_List\r\nFROM tblRecipe r, tblRecipeIngredientBridge rib, tblIngredient i \r\nWHERE r.RecipeID = rib.RecipeID AND rib.IngredientID = i.IngredientID\r\nGROUP BY Method, Title\r\nORDER BY Title DESC;";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						string ingredient = reader["Ingredient"].ToString();
+						string title = reader["Title"].ToString();
+						string Method = reader["Method"].ToString();
+						ingredientsInRecipe.Add(new ComplexQry1(title, Method, ingredient));
+					}
+				}
+			}
+			return ingredientsInRecipe;
+		}
+		public List<ComplexQry2> IngredientsPerStore()
+		{
+			List<ComplexQry2> ingredientsPerStore = new List<ComplexQry2>();
+			string query = "SELECT s.StoreID AS StoreID, s.Store , COUNT(DISTINCT isb.IngredientID) AS NumberOfIngredients\r\nFROM tblStore s, tblRecipe r, tblIngredientStoreBridge isb, tblIngredient i\r\nWHERE s.StoreID = isb.StoreID AND  isb.IngredientID = i.IngredientID  \r\nGROUP BY s.StoreID, s.Store\r\nORDER BY NumberOfIngredients DESC;";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int storeID = Convert.ToInt32(reader["StoreID"]);
+						string storeName = reader["Store"].ToString();
+						int ingredientID = Convert.ToInt32(reader["IngredientID"]);
+						ingredientsPerStore.Add(new ComplexQry2(storeID, storeName, ingredientID));
+					}
+				}
+			}
+			return ingredientsPerStore;
+		}
+		public List<ComplexQry3> CitiesWithMostStores()
+		{
+			List<ComplexQry3> citiesWithMostStores = new List<ComplexQry3>();
+			string query = "SELECT TOP 10 c.City, COUNT(st.Store) AS Number_of_Stores \r\nFROM tblSuburb su, tblCity c, tblStore st\r\nWHERE c.CityID = su.CityID AND su.SuburbID = st.SuburbID\r\nGROUP BY c.City\r\nORDER BY Number_of_Stores DESC;";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						string city = reader["City"].ToString();
+						string store = reader["Store"].ToString();
+						citiesWithMostStores.Add(new ComplexQry3(city, store));
+					}
+				}
+			}
+			return citiesWithMostStores;
+		}
+		public List<ComplexQry4> MostIngredientsByStore()
+		{
+			List<ComplexQry4> mostIngredientsByStore = new List<ComplexQry4>();
+			string query = "SELECT s.Store, COUNT(i.Ingredient) AS Total_Ingredients, su.Suburb, c.City\r\nFROM tblStore s, tblIngredient i, tblSuburb su, tblIngredientStoreBridge isb, tblCity c\r\nWHERE s.StoreID = isb.StoreID \r\nAND i.IngredientID = isb.IngredientID\r\nAND su.SuburbID = s.SuburbID\r\nAND su.CityID = c.CityID\r\nGROUP BY City, Store, Suburb\r\nORDER BY Total_Ingredients DESC;";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						string store = reader["Store"].ToString();
+						string ingredient = reader["Ingredient"].ToString();
+						string suburb = reader["Suburb"].ToString();
+						string city = reader["City"].ToString();
+						mostIngredientsByStore.Add(new ComplexQry4(store, ingredient, suburb, city));
+					}
+				}
+			}
+			return mostIngredientsByStore;
+		}
+		public List<ComplexQry5> NumOfRecipePerRegion()
+
+		{
+			List<ComplexQry5> numOfRecipePerRegion = new List<ComplexQry5>();
+			string query = "SELECT  reg.Area AS Region, COUNT(DISTINCT r.RecipeID) AS TotalRecipes, COUNT(DISTINCT i.IngredientID) AS TotalUniqueIngredients\r\nFROM tblRecipe r, tblRecipeIngredientBridge rib, tblIngredient i, tblRegion reg\r\nWHERE r.RecipeID = rib.RecipeID AND rib.IngredientID = i.IngredientID AND r.RegionID = reg.RegionID\r\nGROUP BY  reg.Area\r\nORDER BY TotalRecipes DESC;";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						int recipeID = Convert.ToInt32(reader["RecipeID"]);
+						string area = reader["Area"].ToString();
+						int IngredientID = Convert.ToInt32(reader["IngredientID"]);
+						numOfRecipePerRegion.Add(new ComplexQry5(area, recipeID, IngredientID));
+					}
+				}
+			}
+			return numOfRecipePerRegion;
+		}
+		// REPORTS ADVANCED
+		public List<AdvancedQry1> ChefRecipeRegion()
+		{
+			List<AdvancedQry1> chefRecipeRegion = new List<AdvancedQry1>();
+			string query = "SELECT c.FirstName , c.LastName , r.Title, reg.Area AS Region\r\nFROM  tblRecipe r, tblChef c, tblRegion reg\r\nWHERE r.ChefID = c.ChefID AND r.RegionID = reg.RegionID;";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						string firstName = reader["FirstName"].ToString();
+						string lastName = reader["LastName"].ToString();
+						string title = reader["Title"].ToString();
+						string area = reader["Area"].ToString();
+						chefRecipeRegion.Add(new AdvancedQry1(firstName, lastName, title, area));
+					}
+				}
+			}
+			return chefRecipeRegion;
+		}
+		public List<AdvancedQry2> RecipeCategoryIngredients()
+		{
+			List<AdvancedQry2> recipeCategoryIngredients = new List<AdvancedQry2>();
+			string query = "SELECT r.Title ,c.Category, STRING_AGG(i.Ingredient, ', ') AS Ingredients\r\nFROM tblRecipe r, tblCategory c, tblRecipeIngredientBridge rib, tblIngredient i\r\nWHERE r.CategoryID = c.CategoryID AND r.RecipeID = rib.RecipeID AND rib.IngredientID = i.IngredientID\r\nGROUP BY  r.Title, c.Category;";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						string title = reader["Title"].ToString();
+						string category = reader["Category"].ToString();
+						string ingredientsList = reader["Ingredient"].ToString();
+						recipeCategoryIngredients.Add(new AdvancedQry2(title, category, ingredientsList));
+					}
+				}
+			}
+			return recipeCategoryIngredients;
+		}
+		public List<AdvancedQry3> RecipeRegionCountry()
+		{
+			List<AdvancedQry3> recipeRegionCountry = new List<AdvancedQry3>();
+			string query = "SELECT r.Area AS Region, re.Title AS Recipe, c.Country\r\nFROM tblRegion r, tblRecipe re, tblCountry c\r\nWHERE r.RegionID = re.RegionID\r\nAND r.CountryID = c.CountryID;";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						string title = reader["Title"].ToString();
+						string area = reader["Area"].ToString();
+						string country = reader["Country"].ToString();
+						recipeRegionCountry.Add(new AdvancedQry3(area, title, country));
+					}
+				}
+			}
+			return recipeRegionCountry;
+		}
+		public List<AdvancedQry4> RecipesUseGarlic()
+		{
+			List<AdvancedQry4> recipesUseGarlic = new List<AdvancedQry4>();
+			string query = "SELECT r.Title, r.Method, Ingredient\r\nFROM tblRecipe r, tblRecipeIngredientBridge rib, tblIngredient i\r\nWHERE r.RecipeID = rib.RecipeID AND rib.IngredientID = i.IngredientID\r\nAND i.Ingredient = 'Garlic';";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						string title = reader["Title"].ToString();
+						string method = reader["Method"].ToString();
+						string ingredient = reader["Ingredient"].ToString();
+						recipesUseGarlic.Add(new AdvancedQry4(title, method, ingredient));
+					}
+				}
+			}
+			return recipesUseGarlic;
+		}
+		public List<AdvancedQry5> StoreContainChicken()
+		{
+			List<AdvancedQry5> storeContainChicken = new List<AdvancedQry5>();
+			string query = "SELECT s.Store, i.Ingredient\r\nFROM tblStore s, tblIngredient i, tblIngredientStoreBridge isb\r\nWHERE s.StoreID = isb.StoreID AND isb.IngredientID = i.IngredientID AND Ingredient = 'Chicken Breast';";
+			using (SqlCommand cmd = new SqlCommand(query, conn))
+			{
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						string store = reader["Store"].ToString();
+						string ingredient = reader["Ingredient"].ToString();
+						storeContainChicken.Add(new AdvancedQry5(store, ingredient));
+					}
+				}
+			}
+			return storeContainChicken;
 		}
 		public bool CheckIfUserExists(string UserName)
 		{
